@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Мониторинг закупок</title>
+<style>
+:root{
+  --bg:#f5f6f8; --panel:#fff; --ink:#1b2330; --muted:#5f6a7a; --line:#e2e6ec; --soft:#f0f3f7;
+  --accent:#2f5ea8; --accent-ink:#fff; --accent-soft:#e7eefa;
+  --ok:#1f8a5b; --warn:#c0392b; --new:#b36b00; --new-bg:#fff3dc; --fav:#7a4fc4; --fav-bg:#f0e9fb;
+  --c0:#2f6fd6; --c0b:#e6effd; --c1:#b0364a; --c1b:#fbe9ec; --c2:#1f8a5b; --c2b:#e3f5ec; --c3:#8a6a1f; --c3b:#f7f0dc; --c4:#5b4fc4; --c4b:#ecebfb;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#11151b; --panel:#191f28; --ink:#e5e9ef; --muted:#97a2b2; --line:#29313c; --soft:#1f2631;
+    --accent:#7aa7f0; --accent-ink:#0d1420; --accent-soft:#1f2b3d;
+    --ok:#6fd3a3; --warn:#ff7b6b; --new:#f2b457; --new-bg:#3a2c12; --fav:#b99af0; --fav-bg:#2a2140;
+    --c0:#8db4f5; --c0b:#1c2a40; --c1:#f08a9a; --c1b:#3a1e25; --c2:#6fd3a3; --c2b:#16332a; --c3:#e0c27a; --c3b:#342b16; --c4:#aea6f5; --c4b:#24223f;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+header{position:sticky;top:0;z-index:5;background:var(--panel);border-bottom:1px solid var(--line)}
+.hwrap{max-width:1500px;margin:0 auto;padding:10px 20px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+h1{font-size:17px;margin:0;font-weight:650;white-space:nowrap}
+nav{display:flex;gap:2px;flex-wrap:wrap}
+nav button{border:0;background:none;padding:7px 11px;border-radius:8px;cursor:pointer;color:var(--muted)}
+nav button.on{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.runbox{margin-left:auto;display:flex;gap:10px;align-items:center}
+.btn{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:6px 12px;cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.btn.small{padding:3px 8px;font-size:12px}
+.btn.danger{color:var(--warn)}
+.bar{height:3px;background:var(--line);position:relative;overflow:hidden}
+.bar i{position:absolute;left:0;top:0;bottom:0;background:var(--accent);transition:width .4s}
+.muted{color:var(--muted)} .small{font-size:12px}
+main{max-width:1500px;margin:0 auto;padding:16px 20px 60px}
+section{display:none} section.on{display:block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px}
+.pad{padding:14px 16px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.chip{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:5px 11px;cursor:pointer;white-space:nowrap}
+.chip.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+input[type=text],input[type=search],input[type=number],input[type=password],select,textarea{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:6px 10px}
+input[type=search]{min-width:200px;flex:1}
+select{max-width:100%}
+textarea{width:100%;min-height:70px;resize:vertical}
+.kpis{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 14px}
+.kpi b{font-size:20px;display:block}
+.kpi span{font-size:12px;color:var(--muted)}
+table{width:100%;border-collapse:collapse}
+th{background:var(--panel);text-align:left;font-size:12px;color:var(--muted);font-weight:600;padding:9px 10px;border-bottom:1px solid var(--line);cursor:pointer;white-space:nowrap;z-index:1}
+td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+tr.hid td{opacity:.5}
+tr.irr td{opacity:.7}
+.tag{display:inline-block;font-size:11px;font-weight:600;border-radius:6px;padding:2px 7px;margin:0 4px 4px 0;white-space:nowrap}
+.t-new{color:var(--new);background:var(--new-bg)} .t-fav{color:var(--fav);background:var(--fav-bg)}
+.t-plan{color:var(--muted);background:var(--soft)}
+.title{font-weight:560}
+.title a{color:inherit;text-decoration:none} .title a:hover{color:var(--accent);text-decoration:underline}
+.meta{font-size:12px;color:var(--muted);margin-top:3px}
+.hits{font-size:12px;margin-top:4px}
+.hits i{font-style:normal;color:var(--muted)}
+.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.hot{color:var(--warn);font-weight:600}
+.acts{white-space:nowrap}
+.icon{border:0;background:none;cursor:pointer;padding:3px 5px;border-radius:6px;color:var(--muted);font-size:15px}
+.icon:hover{background:var(--soft);color:var(--ink)}
+.icon.on{color:var(--fav)}
+.empty{padding:40px;text-align:center;color:var(--muted)}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(720px,100%);background:var(--panel);border-left:1px solid var(--line);box-shadow:-10px 0 30px rgba(0,0,0,.12);z-index:20;display:none;flex-direction:column}
+.drawer.on{display:flex}
+.drawer .dh{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:flex-start}
+.drawer .db{padding:14px 18px;overflow:auto;flex:1}
+.doc{border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin-bottom:8px}
+pre.text{white-space:pre-wrap;font:12px/1.5 ui-monospace,Consolas,monospace;background:var(--soft);padding:10px;border-radius:8px;max-height:60vh;overflow:auto}
+mark{background:#ffe08a;color:#1b2330;border-radius:2px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:14px}
+.list{max-height:420px;overflow:auto;border:1px solid var(--line);border-radius:8px}
+.li{display:flex;gap:8px;align-items:center;padding:6px 10px;border-bottom:1px solid var(--line)}
+.li:last-child{border-bottom:0}
+.li .grow{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.pill{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);border-radius:999px;padding:2px 4px 2px 9px;margin:0 5px 5px 0;font-size:12px;background:var(--panel)}
+.pill.off{opacity:.45;text-decoration:line-through}
+.pill button{border:0;background:none;cursor:pointer;color:var(--muted);padding:0 4px}
+.grp{margin-bottom:10px}
+.grp b{font-size:12px;color:var(--muted);display:block;margin-bottom:4px}
+label.sw{display:flex;gap:8px;align-items:center;padding:4px 0;cursor:pointer}
+h2{font-size:15px;margin:0 0 10px}
+h3{font-size:13px;margin:14px 0 8px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.note{font-size:12px;color:var(--muted);margin-top:6px}
+.log{font:12px/1.5 ui-monospace,Consolas,monospace;white-space:pre-wrap;max-height:420px;overflow:auto;background:var(--soft);padding:10px;border-radius:8px}
+.sec{border:1px solid var(--line);border-radius:10px;margin-bottom:10px;background:var(--panel)}
+.sec.off{opacity:.55}
+.sec-h{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;cursor:pointer}
+.sec-h .nm{font-weight:600}
+.sec-h .ds{font-size:12px;color:var(--muted);margin-top:2px}
+.sec-h .ct{font-size:12px;color:var(--muted);white-space:nowrap}
+.sec-b{padding:4px 12px 12px;border-top:1px solid var(--line);display:none}
+.sec.open .sec-b{display:block}
+.caret{color:var(--muted);transition:transform .2s;display:inline-block}
+.sec.open .caret{transform:rotate(90deg)}
+.addrow{display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+.addrow textarea{min-height:36px;flex:1;min-width:200px}
+.ov-dir{margin-bottom:18px}
+.ov-sec{padding:8px 0;border-top:1px solid var(--line)}
+.ov-sec b{font-size:13px}
+.ov-sm{display:inline-block;font-size:11px;background:var(--soft);border-radius:5px;padding:1px 6px;margin:3px 3px 0 0}
+.hitsec{color:var(--muted)}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:25;display:none;align-items:center;justify-content:center;padding:16px}
+.modal-bg.on{display:flex}
+.modal{background:var(--panel);border-radius:14px;padding:18px;width:min(520px,100%);box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.modal h2{margin-bottom:12px}
+.modal .row{margin-bottom:8px}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--panel);padding:9px 16px;border-radius:10px;opacity:0;transition:opacity .3s;z-index:30;pointer-events:none}
+.toast.on{opacity:.95}
+@media (max-width:900px){
+  .hwrap,main{padding-left:14px;padding-right:14px}
+  thead{display:none} table,tbody,tr,td{display:block;width:100%} tr{border-bottom:1px solid var(--line);padding:6px 0} td{border:0;padding:3px 12px}
+  .num{text-align:left} .runbox{margin-left:0}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="hwrap">
+    <h1>Мониторинг закупок</h1>
+    <nav id="nav">
+      <button data-s="tenders" class="on">Закупки</button>
+      <button data-s="docsearch">Поиск в документах</button>
+      <button data-s="customers">Заказчики</button>
+      <button data-s="criteria">Направления</button>
+      <button data-s="platforms">Площадки</button>
+      <button data-s="settings">Расписание</button>
+      <button data-s="journal">Журнал</button>
+    </nav>
+    <div class="runbox">
+      <span class="small muted" id="runinfo"></span>
+      <button class="btn" id="stopBtn" hidden>Остановить</button>
+      <button class="btn primary" id="runBtn">Запустить поиск</button>
+    </div>
+  </div>
+  <div class="bar"><i id="barFill" style="width:0"></i></div>
+</header>
+
+<main>
+<!-- ═════════ Закупки ═════════ -->
+<section id="s-tenders" class="on">
+  <div class="kpis" id="kpis"></div>
+  <div class="filters" id="dirChips"></div>
+  <div class="filters">
+    <select id="fKind"><option value="notice">Объявленные закупки</option><option value="plan">Планы закупок</option><option value="">Закупки и планы</option></select>
+    <select id="fMode"><option value="">Все источники поиска</option><option value="customer">Мои заказчики</option><option value="market">Весь рынок</option></select>
+    <select id="fCust"><option value="">Любой заказчик</option></select>
+    <select id="fSrc"><option value="">Все площадки</option></select>
+    <select id="fStatus"><option value="active">Новые и в работе</option><option value="new">Только новые</option><option value="favorite">В работе ★</option><option value="viewed">Просмотренные</option><option value="all">Все, кроме скрытых</option><option value="hidden">Скрытые</option></select>
+    <select id="fDays"><option value="">Любой срок</option><option value="3">Подача ≤ 3 дней</option><option value="7">≤ 7 дней</option><option value="14">≤ 14 дней</option></select>
+    <input type="number" id="fPrice" placeholder="НМЦ от, ₽" style="width:130px">
+    <label class="sw small"><input type="checkbox" id="fIrr"> показать нерелевантные закупки заказчиков</label>
+  </div>
+  <div class="filters">
+    <input type="search" id="fQ" placeholder="Поиск: предмет, вендор, заказчик, номер, ОКПД2…">
+    <button class="btn" id="markAll" title="Только закупки, которые видны под текущими фильтрами">Отметить новые просмотренными</button>
+    <button class="btn" id="undoMark" hidden>↶ Отменить отметку</button>
+    <button class="btn" id="unview" title="Закупки под текущими фильтрами со статусом «просмотрена» снова станут новыми">Вернуть просмотренные в новые</button>
+    <button class="btn" id="exportBtn">Excel</button>
+  </div>
+  <div class="filters">
+    <button class="btn primary" id="runFiltered">🔎 Искать по фильтру</button>
+    <span class="small muted" id="scopeText"></span>
+  </div>
+  <div class="card">
+    <table>
+      <thead><tr>
+        <th data-k="dirs">Направление</th><th data-k="title">Закупка</th><th data-k="customer">Заказчик</th>
+        <th data-k="price" class="num">НМЦ, ₽</th><th data-k="deadline_iso">Подача до</th><th></th>
+      </tr></thead>
+      <tbody id="tb"></tbody>
+    </table>
+    <div class="empty" id="empty" hidden>Нет закупок под выбранные фильтры. Запустите поиск или измените фильтры.</div>
+  </div>
+</section>
+
+<!-- ═════════ Поиск в документах ═════════ -->
+<section id="s-docsearch">
+  <div class="card pad">
+    <h2>Поиск по спецификациям и ТЗ</h2>
+    <div class="row"><input type="search" id="dq" placeholder="Например: Astra Linux, Huawei, S7-1500, MaxPatrol, ПАК ViPNet"><button class="btn primary" id="dqBtn">Найти</button></div>
+    <div class="note">Ищет в тексте скачанной документации (DOCX, XLSX, PDF, DOC, ZIP…). Документация скачивается автоматически при поиске для закупок ваших заказчиков и для закупок, найденных по рынку.</div>
+  </div>
+  <div id="dres" style="margin-top:12px"></div>
+</section>
+
+<!-- ═════════ Заказчики ═════════ -->
+<section id="s-customers">
+  <div class="grid2">
+    <div class="card pad">
+      <h2 id="custFormTitle">Добавить заказчика</h2>
+      <input type="hidden" id="cId">
+      <div class="row" style="margin-bottom:8px"><input type="text" id="cInn" placeholder="ИНН" style="width:170px"><button class="btn" id="cLookup">Найти название по ИНН</button><span class="small muted" id="cNote"></span></div>
+      <div class="row" style="margin-bottom:8px"><input type="text" id="cName" placeholder="Наименование" style="flex:1"></div>
+      <textarea id="cAliases" placeholder="Другие названия — по одному в строке. Используются для поиска на Сбербанк-АСТ, B2B-Center и портале Росатома, где нет поиска по ИНН. Например: РИР Энерго"></textarea>
+      <div class="row" style="margin-top:8px"><button class="btn primary" id="cSave">Сохранить</button><button class="btn" id="cReset">Очистить</button></div>
+      <div class="note">Можно указать только ИНН, только название или оба. По ИНН ищем в ЕИС и планах закупок, по названиям — на площадках без поиска по ИНН (с проверкой ИНН, где он есть в ответе площадки).</div>
+    </div>
+    <div class="card pad">
+      <h2>Заказчики под наблюдением</h2>
+      <div class="list" id="custList"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ Направления ═════════ -->
+<section id="s-criteria">
+  <div class="card pad">
+    <div class="row" style="justify-content:space-between;align-items:flex-start">
+      <div class="filters" id="critDirs" style="margin:0"></div>
+      <div class="row"><button class="btn" id="dirAddBtn">＋ Направление</button><button class="btn" id="reclass">Пересчитать найденные закупки</button></div>
+    </div>
+    <div style="margin-top:12px">
+      <div class="row"><input type="text" id="dirNameEd" style="font-weight:600;flex:0 1 320px"><label class="sw small"><input type="checkbox" id="dirEnEd"> учитывать при поиске</label><button class="btn small danger" id="dirDel">Удалить направление</button></div>
+      <textarea id="dirDescEd" placeholder="Что входит в направление — описание для себя и коллег" style="min-height:44px;margin-top:6px"></textarea>
+    </div>
+  </div>
+  <div class="grid2" style="margin-top:14px;grid-template-columns:minmax(0,2fr) minmax(280px,1fr)">
+    <div>
+      <div class="row" style="margin-bottom:10px">
+        <input type="search" id="tFilter" placeholder="Найти признак: Astra, сервер, 26.20…">
+        <button class="btn" id="expandAll">Развернуть все</button>
+        <button class="btn primary" id="secAddBtn">＋ Раздел</button>
+      </div>
+      <div id="secBox"></div>
+      <div class="sec open" id="exBox"></div>
+    </div>
+    <div>
+      <div class="card pad">
+        <h2>Проверить на тексте</h2>
+        <textarea id="testText" placeholder="Вставьте название закупки или кусок ТЗ — покажу, какие направления и разделы сработают"></textarea>
+        <div class="row" style="margin-top:6px"><button class="btn" id="testBtn">Проверить</button></div>
+        <div id="testRes" class="hits"></div>
+      </div>
+      <div class="card pad" style="margin-top:14px">
+        <h2>Как работают признаки</h2>
+        <div class="small muted">
+          <p><b>Вендор / продукт</b> — ищется целым словом: «Astra» не сработает на «Астрахань». Вендор объединяет свои продукты (Astra → Astra Linux, ALD Pro, Brest).</p>
+          <p><b>Ключевое слово</b> — по началу слова: «виртуализ» найдёт «виртуализации». Короткие ЗАГЛАВНЫЕ (SIEM, АРМ, ПК) — целым словом с учётом регистра.</p>
+          <p><b>ОКПД2</b> — код или начало кода: «26.20» охватит 26.20.15.000.</p>
+          <p><b>Исключения</b> — фразы, которые не должны давать срабатывание по направлению («Opel Astra», «автоматических выключателей»).</p>
+          <p>Раздел можно выключить целиком — его признаки перестанут учитываться. После правок нажмите «Пересчитать найденные закупки».</p>
+          <p>Для сложных случаев — регулярное выражение с префиксом <code>re:</code>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card pad" style="margin-top:14px">
+    <h2>Поисковые фразы для режима «весь рынок»</h2>
+    <div class="note" style="margin-top:0;margin-bottom:8px">По этим фразам ищем закупки у всех заказчиков в ЕИС, на Сбербанк-АСТ и B2B-Center. Найденное проверяется по признакам направлений и по документации — в результатах остаются только закупки выбранных направлений.</div>
+    <div class="row" style="margin-bottom:8px"><textarea id="qNew" placeholder="Новые фразы — по одной в строке" style="min-height:44px;flex:1"></textarea><button class="btn primary" id="qAdd">Добавить</button></div>
+    <div id="qList"></div>
+  </div>
+</section>
+
+<!-- ═════════ Площадки ═════════ -->
+<section id="s-platforms">
+  <div class="grid2">
+    <div class="card pad">
+      <h2>Источники</h2>
+      <label class="sw"><input type="checkbox" data-set="sources.eis"> ЕИС zakupki.gov.ru — 44-ФЗ, 223-ФЗ, ПП 615, планы закупок</label>
+      <label class="sw"><input type="checkbox" data-set="sources.sber"> Сбербанк-АСТ — госзакупки и коммерческие (УТП, ТЭК, Транснефть…)</label>
+      <label class="sw"><input type="checkbox" data-set="sources.b2b"> B2B-Center — коммерческие и 223-ФЗ</label>
+      <label class="sw"><input type="checkbox" data-set="sources.rosatom"> Портал закупок Росатома (ЕОСЗ)</label>
+      <h3>Режимы поиска</h3>
+      <label class="sw"><input type="checkbox" data-set="modes.customers"> По моим заказчикам (ИНН и названия)</label>
+      <label class="sw"><input type="checkbox" data-set="modes.market"> По всему рынку (поисковые фразы)</label>
+      <label class="sw"><input type="checkbox" data-set="modes.plans"> Планы закупок (что заказчики собираются купить)</label>
+      <h3>Рынок</h3>
+      <div class="row"><span>НМЦ от</span><input type="number" data-set="market.min_price" style="width:140px"><span>₽</span></div>
+      <div class="row" style="margin-top:6px"><span>Опубликованы за последние</span><input type="number" data-set="market.days_back" style="width:80px"><span>дней</span></div>
+      <div class="row" style="margin-top:6px"><span>Страниц на фразу (по 50)</span><input type="number" data-set="market.max_pages" style="width:80px"></div>
+      <h3>Документация</h3>
+      <label class="sw"><input type="checkbox" data-set="docs.enabled"> Скачивать документацию и искать по вложениям</label>
+      <div class="row"><span>Закупок за один запуск, не более</span><input type="number" data-set="docs.max_tenders_per_run" style="width:80px"></div>
+      <div class="row" style="margin-top:6px"><span>Максимальный размер файла, МБ</span><input type="number" data-set="docs.max_file_mb" style="width:80px"></div>
+      <div class="note">RAR и 7Z читаются, если установлен 7-Zip. Сканы PDF без текстового слоя не читаются.</div>
+    </div>
+    <div class="card pad">
+      <h2>Учётные записи площадок</h2>
+      <div class="note" style="margin-top:0">Логины и пароли хранятся только на этом компьютере и шифруются средствами Windows (DPAPI) — прочитать их может только ваша учётная запись Windows.</div>
+      <div id="creds"></div>
+      <h3>Сеть</h3>
+      <div class="row"><span>Пауза между запросами, сек</span><input type="number" step="0.5" data-set="network.request_delay" style="width:80px"></div>
+      <div class="row" style="margin-top:6px"><span>Прокси</span><input type="text" data-set="network.proxy" placeholder="http://user:pass@host:port" style="flex:1"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ Расписание ═════════ -->
+<section id="s-settings">
+  <div class="grid2">
+    <div class="card pad">
+      <h2>Расписание</h2>
+      <label class="sw"><input type="checkbox" data-set="schedule.enabled"> <span id="schedLabel">Искать автоматически, пока приложение открыто</span></label>
+      <div class="row"><span>Каждые</span><input type="number" data-set="schedule.every_hours" style="width:70px"><span>ч, с</span><input type="number" data-set="schedule.from_hour" style="width:60px"><span>до</span><input type="number" data-set="schedule.to_hour" style="width:60px"><span>часов</span></div>
+      <div class="note" id="schedNote">Чтобы приложение запускалось вместе с Windows, выполните autostart_windows.bat в папке программы.</div>
+    </div>
+    <div class="card pad">
+      <h2>Уведомления в Telegram</h2>
+      <label class="sw"><input type="checkbox" data-set="telegram.enabled"> Присылать новые закупки ИТ/ИБ/АСУТП</label>
+      <div class="row"><input type="text" data-set="telegram.bot_token" placeholder="Токен бота (@BotFather)" style="flex:1"></div>
+      <div class="row" style="margin-top:6px"><input type="text" data-set="telegram.chat_id" placeholder="chat_id (@userinfobot)" style="flex:1"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ Журнал ═════════ -->
+<section id="s-journal">
+  <div class="card pad"><h2>Текущий запуск</h2><div class="log" id="liveLog">—</div></div>
+  <div class="card pad" style="margin-top:14px"><h2>История запусков</h2><div id="runs"></div></div>
+</section>
+</main>
+
+<div class="drawer" id="drawer"><div class="dh"><div style="flex:1" id="dTitle"></div><button class="btn" id="dClose">Закрыть</button></div><div class="db" id="dBody"></div></div>
+<div class="modal-bg" id="custModal"><div class="modal">
+  <h2>Добавить заказчика в наблюдение</h2>
+  <div class="row"><input type="text" id="mInn" placeholder="ИНН" style="flex:1"><button class="btn" id="mLookup">Найти название</button></div>
+  <div class="row"><input type="text" id="mName" placeholder="Наименование" style="flex:1"></div>
+  <textarea id="mAliases" placeholder="Другие названия — по одному в строке (для Сбербанк-АСТ, B2B-Center, портала Росатома). Например: РИР Энерго"></textarea>
+  <label class="sw small"><input type="checkbox" id="mRun" checked> сразу найти закупки этого заказчика</label>
+  <div class="note" id="mNote"></div>
+  <div class="row" style="justify-content:flex-end;margin-top:10px"><button class="btn" id="mCancel">Отмена</button><button class="btn primary" id="mSave">Добавить</button></div>
+</div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const api = async (path, body) => {
+  const r = await fetch(path, body === undefined ? {} : {method:"POST", headers:{"Content-Type":"application/json","X-App":"tender"}, body:JSON.stringify(body)});
+  const j = await r.json(); if (!r.ok) throw new Error(j.error || r.status); return j;
+};
+const toast = m => { const t = $("#toast"); t.textContent = m; t.classList.add("on"); setTimeout(() => t.classList.remove("on"), 2600); };
+const fmtP = v => v == null ? "—" : Number(v).toLocaleString("ru-RU", {maximumFractionDigits:0});
+let DIRS = [], ROWS = [], CUST = [], sortK = "deadline_iso", sortD = 1, dirF = "", SETTINGS = {};
+const dirIdx = c => Math.max(0, DIRS.findIndex(d => d.code === c)) % 5;
+const tagDir = (c, name) => `<span class="tag" style="color:var(--c${dirIdx(c)});background:var(--c${dirIdx(c)}b)">${esc(name)}</span>`;
+const dname = c => (DIRS.find(d => d.code === c) || {name:c}).name;
+
+// ───────── навигация
+$$("#nav button").forEach(b => b.onclick = () => {
+  $$("#nav button").forEach(x => x.classList.toggle("on", x === b));
+  $$("main section").forEach(s => s.classList.toggle("on", s.id === "s-" + b.dataset.s));
+  ({customers:loadCustomers, criteria:loadCriteria, platforms:loadSettings, settings:loadSettings, journal:loadRuns})[b.dataset.s]?.();
+});
+
+// ───────── запуск и прогресс
+$("#runBtn").onclick = async () => { const r = await api("/api/run", {}); toast(r.started ? "Поиск запущен" : "Поиск уже идёт"); poll(); };
+$("#stopBtn").onclick = async () => { await api("/api/stop", {}); toast("Останавливаю…"); };
+let wasRunning = false;
+async function poll(){
+  const s = await api("/api/state");
+  DIRS = s.directions;
+  if (s.platform === "android" && !window.__andr) { window.__andr = 1;
+    $("#schedLabel").textContent = "Искать автоматически в фоне (даже когда приложение закрыто)";
+    $("#schedNote").textContent = "Android запускает фоновый поиск примерно с заданной периодичностью и только при наличии интернета. Новые закупки ИТ/ИБ/АСУТП приходят уведомлениями."; }
+  const p = s.progress;
+  $("#runBtn").hidden = p.running; $("#stopBtn").hidden = !p.running;
+  $("#runinfo").textContent = p.running ? `${p.stage}${p.total ? ` · ${p.done}/${p.total}` : ""}` : (s.last_run ? "Последний поиск: " + s.last_run : "Поиск ещё не запускался");
+  $("#barFill").style.width = p.running ? (p.total ? Math.round(100 * p.done / p.total) : 15) + "%" : "0";
+  $("#liveLog").textContent = p.lines.length ? p.lines.join("\n") : "—";
+  if (wasRunning && !p.running) { loadTenders(); toast("Поиск завершён"); }
+  wasRunning = p.running;
+  setTimeout(poll, p.running ? 1500 : 8000);
+}
+
+// ───────── закупки
+async function loadTenders(){
+  const irr = $("#fIrr").checked;
+  const j = await api(`/api/tenders?relevant=${irr ? 0 : 1}`);
+  ROWS = j.rows; CUST = j.customers;
+  const cs = $("#fCust"), cur = cs.value;
+  cs.innerHTML = `<option value="">Любой заказчик</option>` + CUST.map(c => `<option value="${c.id}">${esc(c.name || c.inn)}</option>`).join("") +
+    `<option value="__add">＋ Добавить заказчика…</option>`;
+  cs.value = cur === "__add" ? "" : cur;
+  const ss = $("#fSrc"), curS = ss.value, srcs = [...new Set(ROWS.map(r => r.source))].sort();
+  ss.innerHTML = `<option value="">Все площадки</option>` + srcs.map(s => `<option>${esc(s)}</option>`).join(""); ss.value = curS;
+  renderDirChips(); render();
+}
+function renderDirChips(){
+  $("#dirChips").innerHTML = `<button class="chip ${dirF === "" ? "on" : ""}" data-d="">Все направления</button>` +
+    DIRS.filter(d => d.enabled).map(d => `<button class="chip ${dirF === d.code ? "on" : ""}" data-d="${d.code}" title="${esc(d.description || "")}">${esc(d.name)}</button>`).join("") +
+    `<button class="btn small" id="ovBtn" title="Какие разделы, вендоры и слова входят в каждое направление">Что входит в направления?</button>`;
+  $("#ovBtn").onclick = openOverview;
+  $$("#dirChips .chip").forEach(b => b.onclick = () => { dirF = b.dataset.d; renderDirChips(); render(); });
+}
+function filtered(){
+  const q = $("#fQ").value.trim().toLowerCase(), kind = $("#fKind").value, mode = $("#fMode").value, cust = $("#fCust").value,
+        src = $("#fSrc").value, st = $("#fStatus").value, days = +$("#fDays").value || 0, minp = +$("#fPrice").value || 0;
+  const today = new Date(); today.setHours(0,0,0,0);
+  return ROWS.filter(r => {
+    if (kind && r.kind !== kind) return false;
+    if (mode && r.mode !== mode) return false;
+    if (cust && String(r.watch_id) !== cust) return false;
+    if (src && r.source !== src) return false;
+    if (dirF && !(dirF in r.directions)) return false;
+    if (st === "active" && !["new","favorite"].includes(r.user_status)) return false;
+    if (st === "new" && r.user_status !== "new") return false;
+    if (st === "favorite" && r.user_status !== "favorite") return false;
+    if (st === "all" && r.user_status === "hidden") return false;
+    if (st === "viewed" && r.user_status !== "viewed") return false;
+    if (st === "hidden" && r.user_status !== "hidden") return false;
+    if (minp && (r.price || 0) < minp) return false;
+    if (days && r.kind === "notice") { const d = new Date(r.deadline_iso); if ((d - today) / 864e5 > days) return false; }
+    if (q && !JSON.stringify([r.title, r.number, r.customer, r.customer_inn, r.positions, r.directions, r.platform, r.law, r.user_note]).toLowerCase().includes(q)) return false;
+    return true;
+  });
+}
+function render(){
+  updScope();
+  let list = filtered();
+  list.sort((a, b) => { let x = a[sortK], y = b[sortK]; if (sortK === "dirs") { x = Object.keys(a.directions).join(); y = Object.keys(b.directions).join(); }
+    if (x == null) return 1; if (y == null) return -1; return (x > y ? 1 : x < y ? -1 : 0) * sortD; });
+  const rel = ROWS.filter(r => Object.keys(r.directions).length && r.user_status !== "hidden");
+  const kp = [[rel.filter(r => r.kind === "notice").length, "активных закупок ИТ/ИБ/АСУТП"], [rel.filter(r => r.user_status === "new").length, "новых"],
+    [rel.filter(r => r.user_status === "favorite").length, "в работе"], [rel.filter(r => r.kind === "plan").length, "позиций в планах"]];
+  DIRS.filter(d => d.enabled).forEach(d => kp.push([rel.filter(r => r.kind === "notice" && d.code in r.directions).length, d.name]));
+  $("#kpis").innerHTML = kp.map(([n, l]) => `<div class="kpi"><b>${n}</b><span>${esc(l)}</span></div>`).join("");
+  const today = new Date(); today.setHours(0,0,0,0);
+  $("#empty").hidden = list.length > 0;
+  $("#tb").innerHTML = list.slice(0, 1500).map(r => {
+    const dirs = Object.keys(r.directions);
+    const tags = dirs.map(c => tagDir(c, dname(c))).join("") + (r.user_status === "new" ? `<span class="tag t-new">новая</span>` : "") +
+      (r.user_status === "favorite" ? `<span class="tag t-fav">в работе</span>` : "") + (r.kind === "plan" ? `<span class="tag t-plan">план</span>` : "") +
+      (r.confidence ? `<div class="meta">${esc(r.confidence)}</div>` : "");
+    const hits = Object.entries(r.directions).map(([k, v]) => `<div><i>${esc(dname(k))}:</i> ${fmtHits(v.slice(0, 6))}</div>`).join("");
+    const pos = r.positions.length ? `<div class="meta">${r.positions.slice(0, 3).map(p => esc(p.slice(0, 160))).join("<br>")}${r.positions.length > 3 ? ` … ещё ${r.positions.length - 3}` : ""}</div>` : "";
+    let dl = esc(r.deadline || "—");
+    if (r.kind === "notice" && r.deadline_iso && r.deadline_iso < "2100") { const d = Math.round((new Date(r.deadline_iso) - today) / 864e5); dl += `<div class="meta ${d <= 3 ? "hot" : ""}">${d <= 0 ? "сегодня" : "осталось " + d + " дн."}</div>`; }
+    const docs = r.docs_state === "done" ? "📎" : r.docs_state === "error" ? "⚠" : "";
+    return `<tr class="${r.user_status === "hidden" ? "hid" : ""} ${dirs.length ? "" : "irr"}" data-key="${esc(r.key)}">
+      <td>${tags || '<span class="meta">—</span>'}</td>
+      <td><div class="title"><a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.title)}</a></div>
+        <div class="meta">${esc(r.source)}${r.extra.also ? " + " + esc(r.extra.also.join(", ")) : ""} № ${esc(r.number)} · ${esc(r.law)}${r.published ? " · размещено " + esc(r.published) : ""}${r.mode === "market" ? " · рынок" + (r.query && r.query !== "*" ? ": «" + esc(r.query) + "»" : "") : ""}</div>
+        ${pos}${hits ? `<div class="hits">${hits}</div>` : ""}${r.extra.note ? `<div class="meta" style="color:var(--new)">${esc(r.extra.note)}</div>` : ""}${r.user_note ? `<div class="meta">📝 ${esc(r.user_note)}</div>` : ""}</td>
+      <td>${esc(r.customer || "—")}${r.customer_inn ? `<div class="meta">ИНН ${esc(r.customer_inn)}</div>` : ""}${r.region ? `<div class="meta">${esc(r.region)}</div>` : ""}</td>
+      <td class="num">${fmtP(r.price)}</td><td>${dl}</td>
+      <td class="acts">${r.customer_inn && !CUST.some(c => c.inn === r.customer_inn) ? `<button class="icon" title="Добавить заказчика в наблюдение" data-a="watch">👤＋</button>` : ""}<button class="icon" title="Подробнее и документация" data-a="open">${docs || "ⓘ"}</button><button class="icon ${r.user_status === "favorite" ? "on" : ""}" title="В работу" data-a="favorite">★</button><button class="icon ${r.user_status === "viewed" ? "on" : ""}" title="${r.user_status === "viewed" ? "Снять отметку «просмотрено» — вернуть в новые" : "Отметить просмотренной"}" data-a="viewed">✓</button><button class="icon" title="Скрыть" data-a="hidden">✕</button></td></tr>`;
+  }).join("");
+}
+$("#tb").onclick = async e => {
+  const b = e.target.closest("button[data-a]"); if (!b) return;
+  const key = b.closest("tr").dataset.key, r = ROWS.find(x => x.key === key), a = b.dataset.a;
+  if (a === "open") return openTender(key);
+  if (a === "watch") return openCustModal({inn: r.customer_inn, name: r.customer});
+  const st = r.user_status === a ? (a === "viewed" ? "new" : "viewed") : a;
+  await api("/api/tender/status", {key, user_status: st}); r.user_status = st; render();
+};
+$$("th[data-k]").forEach(th => th.onclick = () => { const k = th.dataset.k; sortD = sortK === k ? -sortD : 1; sortK = k; render(); });
+["#fKind","#fMode","#fSrc","#fStatus","#fDays"].forEach(s => $(s).onchange = render);
+$("#fCust").onchange = () => { if ($("#fCust").value === "__add") { $("#fCust").value = ""; openCustModal(); } render(); };
+$("#fPrice").oninput = render; $("#fQ").oninput = render; $("#fIrr").onchange = loadTenders;
+let lastMarked = [], undoTimer = null;
+$("#markAll").onclick = async () => {
+  const rows = filtered().filter(r => r.user_status === "new"); if (!rows.length) return toast("Новых закупок под фильтром нет");
+  lastMarked = rows.map(r => r.key);
+  await api("/api/tender/set_status", {keys: lastMarked, user_status: "viewed"}); rows.forEach(r => r.user_status = "viewed"); render();
+  $("#undoMark").hidden = false; $("#undoMark").textContent = `↶ Отменить отметку (${lastMarked.length})`;
+  clearTimeout(undoTimer); undoTimer = setTimeout(() => $("#undoMark").hidden = true, 60000);
+  toast(`Отмечено просмотренными: ${rows.length}`);
+};
+$("#undoMark").onclick = async () => {
+  await api("/api/tender/set_status", {keys: lastMarked, user_status: "new"});
+  const set = new Set(lastMarked); ROWS.forEach(r => { if (set.has(r.key)) r.user_status = "new"; }); lastMarked = [];
+  $("#undoMark").hidden = true; render(); toast("Отметка отменена");
+};
+$("#unview").onclick = async () => {
+  const st = $("#fStatus").value;
+  const rows = ROWS.filter(r => r.user_status === "viewed");
+  const scoped = (st === "viewed" || st === "all") ? filtered().filter(r => r.user_status === "viewed")
+               : (() => { const keep = $("#fStatus").value; $("#fStatus").value = "viewed"; const f = filtered(); $("#fStatus").value = keep; return f; })();
+  if (!scoped.length) return toast("Просмотренных закупок под фильтром нет");
+  if (!confirm(`Вернуть в новые ${scoped.length} просмотренных закупок${scoped.length < rows.length ? " (под текущими фильтрами)" : ""}?`)) return;
+  await api("/api/tender/set_status", {keys: scoped.map(r => r.key), user_status: "new"}); scoped.forEach(r => r.user_status = "new"); render(); toast(`Возвращено в новые: ${scoped.length}`);
+};
+
+// ───────── поиск по выбранным фильтрам
+const SRC_KEY = s => s.startsWith("ЕИС") ? "eis" : s.startsWith("Сбербанк") ? "sber" : s.startsWith("B2B") ? "b2b" : s.startsWith("Росатом") ? "rosatom" : null;
+function scopeFromFilters(){
+  const only = {}, parts = [];
+  const cust = $("#fCust").value, mode = $("#fMode").value, kind = $("#fKind").value, src = $("#fSrc").value;
+  if (cust) { only.customer_id = +cust; parts.push("заказчик: " + ((CUST.find(c => String(c.id) === cust) || {}).name || cust)); }
+  const modes = {};
+  if (!cust && mode === "customer") { modes.market = false; parts.push("только мои заказчики"); }
+  if (!cust && mode === "market") { modes.customers = false; parts.push("только весь рынок"); }
+  if (kind === "notice") { modes.plans = false; parts.push("без планов"); }
+  if (kind === "plan") { modes.notices = false; parts.push("только планы закупок"); }
+  if (Object.keys(modes).length) only.modes = modes;
+  if (src && SRC_KEY(src)) { only.sources = {[SRC_KEY(src)]: true}; parts.push("площадка: " + src); }
+  if (dirF) { only.directions = [dirF]; parts.push("направление: " + dname(dirF)); }
+  return {only, text: parts.length ? "Будет искать: " + parts.join(" · ") : "Фильтры не выбраны — поиск будет полным"};
+}
+const updScope = () => { $("#scopeText").textContent = scopeFromFilters().text; };
+$("#runFiltered").onclick = async () => {
+  const {only, text} = scopeFromFilters();
+  const r = await api("/api/run", only); toast(r.started ? "Поиск по фильтру запущен" : "Поиск уже идёт — дождитесь окончания"); poll();
+};
+$("#exportBtn").onclick = () => { const keys = filtered().map(r => r.key); location.href = "/api/export.xlsx?keys=" + encodeURIComponent(JSON.stringify(keys)); };
+
+async function openTender(key){
+  const j = await api("/api/tender?key=" + encodeURIComponent(key)), t = j.tender, r = ROWS.find(x => x.key === key) || {};
+  $("#dTitle").innerHTML = `<div class="title">${esc(t.title)}</div><div class="meta">${esc(t.source)} № ${esc(t.number)} · <a href="${esc(t.url)}" target="_blank" rel="noopener">открыть на площадке</a></div>`;
+  const pos = JSON.parse(t.positions || "[]"), dirs = JSON.parse(t.directions || "{}");
+  $("#dBody").innerHTML = `
+    <div class="meta">Заказчик: ${esc(t.customer || "—")} ${t.customer_inn ? "· ИНН " + esc(t.customer_inn) : ""}</div>
+    <div class="meta">НМЦ: ${fmtP(t.price)} ₽ · подача до ${esc(t.deadline || "—")} · ${esc(t.platform || "")}</div>
+    ${Object.entries(dirs).map(([k, v]) => `<div class="hits">${tagDir(k, dname(k))} ${fmtHits(v)}</div>`).join("")}
+    ${pos.length ? `<h3>Позиции</h3><div class="small">${pos.map(esc).join("<br>")}</div>` : ""}
+    <h3>Заметка</h3><div class="row"><input type="text" id="noteIn" value="${esc(t.user_note)}" style="flex:1"><button class="btn" id="noteSave">Сохранить</button></div>
+    <h3>Документация ${t.docs_state === "done" ? "" : "(" + ({none:"ещё не проверялась", error:"ошибка"}[t.docs_state] || t.docs_state) + ")"}</h3>
+    ${t.docs_note ? `<div class="note">${esc(t.docs_note)}</div>` : ""}
+    <div class="row" style="margin:6px 0 10px"><input type="search" id="docQ" placeholder="Найти в документах этой закупки"></div>
+    ${j.docs.map(d => `<div class="doc"><div class="row"><b style="flex:1">${esc(d.name || "файл")}</b><span class="small muted">${d.size ? Math.round(d.size / 1024) + " КБ" : ""}</span>
+      ${d.chars ? `<button class="btn small" data-doc="${d.id}">Текст</button>` : ""}<a class="btn small" href="${esc(d.url)}" target="_blank" rel="noopener">Скачать</a></div>
+      ${d.note ? `<div class="note">${esc(d.note)}</div>` : ""}<div data-docbox="${d.id}"></div></div>`).join("") || '<div class="muted small">Файлов нет</div>'}`;
+  $("#drawer").classList.add("on");
+  $("#noteSave").onclick = async () => { await api("/api/tender/status", {key, user_note: $("#noteIn").value}); if (r) r.user_note = $("#noteIn").value; render(); toast("Сохранено"); };
+  $$("[data-doc]").forEach(b => b.onclick = () => showDoc(b.dataset.doc, $("#docQ").value));
+  $("#docQ").onkeydown = e => { if (e.key === "Enter") $$("[data-doc]").forEach(b => showDoc(b.dataset.doc, $("#docQ").value)); };
+  if (r && r.user_status === "new") { await api("/api/tender/status", {key, user_status:"viewed"}); r.user_status = "viewed"; render(); }
+}
+async function showDoc(id, q){
+  const d = await api("/api/doc?id=" + id), box = $(`[data-docbox="${id}"]`);
+  let text = esc(d.text || "");
+  if (q) { const rx = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi"); const n = (d.text.match(rx) || []).length; text = text.replace(rx, m => `<mark>${m}</mark>`); box.innerHTML = `<div class="note">Найдено: ${n}</div><pre class="text">${text}</pre>`; }
+  else box.innerHTML = `<pre class="text">${text}</pre>`;
+  box.querySelector("mark")?.scrollIntoView({block:"center"});
+}
+$("#dClose").onclick = () => $("#drawer").classList.remove("on");
+
+// совпадения «док: Раздел › признак» → раздел серым, признак обычным
+function fmtHits(v){
+  return v.map(h => { let doc = ""; if (h.startsWith("док: ")) { doc = "📎 "; h = h.slice(5); }
+    const i = h.indexOf(" › "); return i > 0 ? `${doc}<span class="hitsec">${esc(h.slice(0, i))} ›</span> ${esc(h.slice(i + 3))}` : doc + esc(h); }).join("; ");
+}
+
+// ───────── состав направлений (справка)
+async function openOverview(){
+  const j = await api("/api/overview");
+  $("#dTitle").innerHTML = `<div class="title">Что входит в направления</div><div class="meta">Закупка попадает в направление, если в названии, позициях или документации найден признак из любого включённого раздела.</div>`;
+  $("#dBody").innerHTML = j.directions.map(d => `<div class="ov-dir"><div class="row" style="justify-content:space-between">${tagDir(d.code, d.name)}<button class="btn small" data-edit="${d.code}">Изменить состав</button></div>
+    <div class="small" style="margin:4px 0 6px">${esc(d.description || "")}${d.enabled ? "" : " <b>(выключено)</b>"}</div>
+    ${d.sections.map(x => `<div class="ov-sec" style="${x.enabled ? "" : "opacity:.5"}"><b>${esc(x.name)}</b> <span class="small muted">${[x.counts.vendor && x.counts.vendor + " вендоров/продуктов", x.counts.keyword && x.counts.keyword + " слов", x.counts.okpd && "ОКПД2: " + x.counts.okpd].filter(Boolean).join(" · ")}${x.enabled ? "" : " · выключен"}</span>
+      <div class="small muted">${esc(x.description || "")}</div><div>${x.samples.map(t => `<span class="ov-sm">${esc(t)}</span>`).join("")}</div></div>`).join("")}
+    ${d.excludes ? `<div class="small muted" style="margin-top:4px">Исключений: ${d.excludes}</div>` : ""}</div>`).join("");
+  $("#drawer").classList.add("on");
+  $$("[data-edit]").forEach(b => b.onclick = () => { critDir = b.dataset.edit; $("#drawer").classList.remove("on"); $$("#nav button").find(x => x.dataset.s === "criteria").click(); });
+}
+
+// ───────── быстрое добавление заказчика
+function openCustModal(pre = {}){
+  $("#mInn").value = pre.inn || ""; $("#mName").value = pre.name || ""; $("#mAliases").value = ""; $("#mNote").textContent = "";
+  $("#custModal").classList.add("on"); (pre.inn ? $("#mName") : $("#mInn")).focus();
+}
+$("#mCancel").onclick = () => $("#custModal").classList.remove("on");
+$("#custModal").onclick = e => { if (e.target.id === "custModal") $("#custModal").classList.remove("on"); };
+async function lookupInn(innEl, nameEl, noteEl){
+  const inn = innEl.value.replace(/\D/g, "");
+  if (!/^\d{10}(\d{2})?$/.test(inn)) { noteEl.textContent = "ИНН — 10 или 12 цифр"; return; }
+  noteEl.textContent = "Ищу в ЕИС…";
+  const r = await api("/api/lookup_inn?inn=" + inn);
+  if (r.ok) { nameEl.value = r.name; noteEl.textContent = "Найдено: " + r.source; } else noteEl.textContent = r.message;
+}
+$("#mLookup").onclick = () => lookupInn($("#mInn"), $("#mName"), $("#mNote"));
+$("#mInn").onkeydown = e => { if (e.key === "Enter") $("#mLookup").click(); };
+$("#mSave").onclick = async () => {
+  const c = {name: $("#mName").value.trim(), inn: $("#mInn").value.replace(/\D/g, ""), aliases: $("#mAliases").value.trim(), enabled: 1};
+  if (!c.name && !c.inn) return ($("#mNote").textContent = "Укажите ИНН или название");
+  if (c.inn && !/^\d{10}(\d{2})?$/.test(c.inn)) return ($("#mNote").textContent = "ИНН — 10 или 12 цифр");
+  const r = await api("/api/customers", c);
+  $("#custModal").classList.remove("on");
+  await loadTenders(); $("#fCust").value = String(r.id); render();
+  if ($("#mRun").checked) { const x = await api("/api/run", {customer_id: r.id}); toast(x.started ? "Заказчик добавлен, ищу его закупки" : "Заказчик добавлен. Поиск уже идёт — его закупки найдутся в следующем запуске"); poll(); }
+  else toast("Заказчик добавлен");
+};
+
+// ───────── поиск в документах
+async function docSearch(){
+  const q = $("#dq").value.trim(); if (!q) return;
+  const j = await api("/api/search_docs?q=" + encodeURIComponent(q));
+  const rx = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi");
+  $("#dres").innerHTML = j.rows.length ? `<div class="card">` + j.rows.map(r => `<div class="li" style="align-items:flex-start"><div class="grow">
+    <div class="title"><a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.title)}</a></div>
+    <div class="meta">${esc(r.source)} № ${esc(r.number)} · до ${esc(r.deadline || "—")} ${r.active ? "" : "· неактивна"} · файл: ${esc(r.name)}</div>
+    <div class="small">…${esc(r.snippet).replace(rx, m => `<mark>${m}</mark>`)}…</div></div>
+    <button class="btn small" data-open="${esc(r.key)}">Открыть</button></div>`).join("") + `</div>` : `<div class="empty">В скачанной документации ничего не найдено</div>`;
+  $$("[data-open]").forEach(b => b.onclick = () => openTender(b.dataset.open));
+}
+$("#dqBtn").onclick = docSearch; $("#dq").onkeydown = e => { if (e.key === "Enter") docSearch(); };
+
+// ───────── заказчики
+async function loadCustomers(){
+  const j = await api("/api/customers");
+  $("#custList").innerHTML = j.rows.map(c => `<div class="li"><input type="checkbox" ${c.enabled ? "checked" : ""} data-en="${c.id}" title="Искать">
+    <div class="grow"><b>${esc(c.name || "—")}</b><div class="meta">ИНН ${esc(c.inn || "—")}${c.aliases ? " · " + esc(c.aliases.split("\n").filter(Boolean).join("; ")) : ""}</div></div>
+    <button class="btn small" data-run="${c.id}">Искать</button><button class="btn small" data-ed="${c.id}">Изменить</button><button class="btn small danger" data-del="${c.id}">Удалить</button></div>`).join("") || '<div class="empty">Добавьте заказчика слева</div>';
+  $$("[data-en]").forEach(x => x.onchange = async () => { const c = j.rows.find(r => r.id == x.dataset.en); await api("/api/customers", {...c, enabled: x.checked ? 1 : 0}); });
+  $$("[data-ed]").forEach(x => x.onclick = () => { const c = j.rows.find(r => r.id == x.dataset.ed); $("#cId").value = c.id; $("#cName").value = c.name; $("#cInn").value = c.inn; $("#cAliases").value = c.aliases; $("#custFormTitle").textContent = "Изменить заказчика"; });
+  $$("[data-del]").forEach(x => x.onclick = async () => { if (confirm("Удалить заказчика из наблюдения? Найденные закупки останутся.")) { await api("/api/customers/delete", {id: +x.dataset.del}); loadCustomers(); } });
+  $$("[data-run]").forEach(x => x.onclick = async () => { const r = await api("/api/run", {customer_id: +x.dataset.run}); toast(r.started ? "Ищу закупки этого заказчика" : "Поиск уже идёт"); });
+}
+$("#cSave").onclick = async () => {
+  const c = {id: +$("#cId").value || null, name: $("#cName").value.trim(), inn: $("#cInn").value.trim(), aliases: $("#cAliases").value.trim(), enabled: 1};
+  if (!c.name && !c.inn) return toast("Укажите название или ИНН");
+  if (c.inn && !/^\d{10}(\d{2})?$/.test(c.inn.replace(/\D/g, ""))) return toast("ИНН — 10 или 12 цифр");
+  await api("/api/customers", c); $("#cReset").click(); loadCustomers(); toast("Сохранено");
+};
+$("#cLookup").onclick = () => lookupInn($("#cInn"), $("#cName"), $("#cNote"));
+$("#cReset").onclick = () => { ["#cId","#cName","#cInn","#cAliases"].forEach(s => $(s).value = ""); $("#custFormTitle").textContent = "Добавить заказчика"; };
+
+// ───────── направления: разделы и признаки
+let critDir = null, TERMS = [], SECS = [], openSecs = new Set();
+const KIND = {vendor:"Вендоры и продукты", keyword:"Ключевые слова", okpd:"Коды ОКПД2"};
+async function loadCriteria(){
+  const j = await api("/api/terms?direction=" + encodeURIComponent(critDir || ""));
+  DIRS = j.directions;
+  if (!critDir || !DIRS.some(d => d.code === critDir)) { if (!DIRS.length) return; critDir = DIRS[0].code; return loadCriteria(); }
+  TERMS = j.rows; SECS = j.sections;
+  const d = DIRS.find(x => x.code === critDir);
+  $("#critDirs").innerHTML = DIRS.map(x => `<button class="chip ${x.code === critDir ? "on" : ""}" data-cd="${x.code}">${esc(x.name)}${x.enabled ? "" : " (выкл.)"}</button>`).join("");
+  $$("[data-cd]").forEach(b => b.onclick = () => { critDir = b.dataset.cd; openSecs.clear(); loadCriteria(); });
+  $("#dirNameEd").value = d.name; $("#dirDescEd").value = d.description || ""; $("#dirEnEd").checked = !!d.enabled;
+  renderSecs(); loadQueries();
+}
+const saveDir = async () => { await api("/api/directions", {code: critDir, name: $("#dirNameEd").value.trim(), description: $("#dirDescEd").value.trim(), enabled: $("#dirEnEd").checked ? 1 : 0}); toast("Сохранено"); loadCriteria(); };
+$("#dirNameEd").onchange = saveDir; $("#dirDescEd").onchange = saveDir; $("#dirEnEd").onchange = saveDir;
+$("#dirDel").onclick = async () => { if (!confirm("Удалить направление «" + $("#dirNameEd").value + "» со всеми разделами и признаками?")) return; await api("/api/directions", {code: critDir, delete: true}); critDir = null; loadCriteria(); };
+$("#dirAddBtn").onclick = async () => { const n = prompt("Название нового направления, например «Видеонаблюдение»"); if (!n) return; const code = "D" + Date.now().toString(36).toUpperCase(); await api("/api/directions", {code, name: n.trim()}); critDir = code; openSecs.add("Основное"); loadCriteria(); };
+$("#secAddBtn").onclick = async () => { const n = prompt("Название раздела, например «Системы видеонаблюдения»"); if (!n) return; const ds = prompt("Коротко: что входит в раздел (можно оставить пустым)") || ""; await api("/api/sections", {direction: critDir, name: n, description: ds}); openSecs.add(n.trim()); loadCriteria(); };
+$("#expandAll").onclick = () => { const all = openSecs.size < SECS.length; SECS.forEach(x => all ? openSecs.add(x.name) : openSecs.delete(x.name)); $("#expandAll").textContent = all ? "Свернуть все" : "Развернуть все"; renderSecs(); };
+$("#tFilter").oninput = renderSecs;
+
+const pill = x => `<span class="pill ${x.enabled ? "" : "off"}" title="${x.user ? "добавлено вами" : "из стандартного словаря"}">${esc(x.kind === "okpd" ? x.value : x.value)}<button data-tt="${x.id}" title="${x.enabled ? "Выключить" : "Включить"}">${x.enabled ? "◉" : "○"}</button><button data-tm="${x.id}" title="Перенести в другой раздел">⇄</button><button data-td="${x.id}" title="Удалить">×</button></span>`;
+function termsHtml(items){
+  let h = "";
+  for (const kind of ["vendor", "keyword", "okpd"]) {
+    const xs = items.filter(x => x.kind === kind); if (!xs.length) continue;
+    h += `<h3>${KIND[kind]} (${xs.length})</h3>`;
+    if (kind === "vendor") { const g = {}; xs.forEach(x => (g[x.grp || x.value] ||= []).push(x)); h += Object.entries(g).map(([n, ys]) => `<div class="grp"><b>${esc(n)}</b>${ys.map(pill).join("")}</div>`).join(""); }
+    else h += xs.map(pill).join("");
+  }
+  return h || '<div class="small muted">Признаков пока нет — добавьте ниже.</div>';
+}
+function renderSecs(){
+  const f = $("#tFilter").value.trim().toLowerCase();
+  const match = x => !f || (x.value + " " + (x.grp || "")).toLowerCase().includes(f);
+  $("#secBox").innerHTML = SECS.map(sec => {
+    const all = TERMS.filter(t => t.section === sec.name && t.kind !== "exclude"), items = all.filter(match);
+    if (f && !items.length) return "";
+    const c = k => all.filter(t => t.kind === k).length;
+    const cnt = [c("vendor") && c("vendor") + " вендоров/продуктов", c("keyword") && c("keyword") + " слов", c("okpd") && "ОКПД2: " + c("okpd")].filter(Boolean).join(" · ") || "пусто";
+    const open = f || openSecs.has(sec.name);
+    return `<div class="sec ${open ? "open" : ""} ${sec.enabled ? "" : "off"}" data-sid="${sec.id}">
+      <div class="sec-h" data-toggle="${esc(sec.name)}"><span class="caret">▶</span><div style="flex:1;min-width:0"><div class="nm">${esc(sec.name)}</div><div class="ds">${esc(sec.description || "")}</div></div>
+        <span class="ct">${cnt}</span><label class="sw small" title="Учитывать раздел при поиске" onclick="event.stopPropagation()"><input type="checkbox" data-sen="${sec.id}" ${sec.enabled ? "checked" : ""}></label></div>
+      <div class="sec-b">${termsHtml(items)}
+        <div class="addrow"><select data-ak="${sec.id}"><option value="vendor">Вендор / продукт</option><option value="keyword">Ключевое слово</option><option value="okpd">ОКПД2</option></select>
+          <input type="text" data-ag="${sec.id}" placeholder="Вендор, напр. Astra" style="width:170px">
+          <textarea data-av="${sec.id}" placeholder="Значения — по одному в строке"></textarea><button class="btn primary small" data-add="${sec.id}">Добавить</button></div>
+        <div class="row" style="margin-top:8px"><button class="btn small" data-sren="${sec.id}">Переименовать и описание</button><button class="btn small danger" data-sdel="${sec.id}">Удалить раздел</button></div>
+      </div></div>`;
+  }).join("") || '<div class="muted">Ничего не найдено</div>';
+  const ex = TERMS.filter(t => t.kind === "exclude" && match(t));
+  $("#exBox").innerHTML = `<div class="sec-h" style="cursor:default"><div style="flex:1"><div class="nm">Исключения</div><div class="ds">Фразы, которые не дают срабатывания по направлению «${esc(dname(critDir))}»</div></div><span class="ct">${ex.length}</span></div>
+    <div class="sec-b" style="display:block">${ex.map(pill).join("") || '<span class="small muted">Нет</span>'}
+    <div class="addrow"><textarea id="exNew" placeholder="Новые исключения — по одному в строке, например: Opel Astra"></textarea><button class="btn small" id="exAdd">Добавить</button></div></div>`;
+  $$("[data-toggle]").forEach(h => h.onclick = () => { const n = h.dataset.toggle; openSecs.has(n) ? openSecs.delete(n) : openSecs.add(n); renderSecs(); });
+  $$("[data-sen]").forEach(x => x.onchange = async () => { await api("/api/sections", {id: +x.dataset.sen, enabled: x.checked ? 1 : 0}); toast(x.checked ? "Раздел учитывается" : "Раздел выключен"); loadCriteria(); });
+  $$("[data-ak]").forEach(sel => { const upd = () => { $(`[data-ag="${sel.dataset.ak}"]`).style.display = sel.value === "vendor" ? "" : "none"; }; sel.onchange = upd; upd(); });
+  $$("[data-add]").forEach(b => b.onclick = async () => {
+    const id = b.dataset.add, sec = SECS.find(x => x.id == id), kind = $(`[data-ak="${id}"]`).value, v = $(`[data-av="${id}"]`).value.trim();
+    if (!v) return;
+    const grp = kind === "vendor" ? ($(`[data-ag="${id}"]`).value.trim() || v.split("\n")[0].trim()) : "";
+    const r = await api("/api/terms", {direction: critDir, section: sec.name, kind, grp, value: v});
+    toast(`Добавлено: ${r.added}. Чтобы применить к уже найденным — «Пересчитать»`); openSecs.add(sec.name); loadCriteria();
+  });
+  $$("[data-sren]").forEach(b => b.onclick = async () => { const sec = SECS.find(x => x.id == b.dataset.sren); const n = prompt("Название раздела", sec.name); if (n === null) return; const ds = prompt("Что входит в раздел", sec.description || ""); if (ds === null) return; await api("/api/sections", {id: sec.id, name: n, description: ds}); openSecs.delete(sec.name); openSecs.add(n.trim()); loadCriteria(); });
+  $$("[data-sdel]").forEach(b => b.onclick = async () => {
+    const sec = SECS.find(x => x.id == b.dataset.sdel), others = SECS.filter(x => x.id !== sec.id);
+    const n = TERMS.filter(t => t.section === sec.name).length;
+    let move = "";
+    if (n && others.length) { move = prompt(`В разделе ${n} признаков. Перенести их в раздел (впишите название) или оставьте пустым, чтобы удалить вместе с разделом:\n\n` + others.map(x => "• " + x.name).join("\n"), ""); if (move === null) return; move = move.trim(); if (move && !others.some(x => x.name === move)) return toast("Нет такого раздела"); }
+    else if (!confirm("Удалить раздел «" + sec.name + "»?")) return;
+    await api("/api/sections", {id: sec.id, delete: true, move_to: move}); loadCriteria();
+  });
+  $$("[data-tt]").forEach(b => b.onclick = async () => { const x = TERMS.find(t => t.id == b.dataset.tt); x.enabled = x.enabled ? 0 : 1; await api("/api/terms/update", {id: x.id, enabled: x.enabled}); renderSecs(); });
+  $$("[data-td]").forEach(b => b.onclick = async () => { await api("/api/terms/delete", {id: +b.dataset.td}); TERMS = TERMS.filter(t => t.id != b.dataset.td); renderSecs(); });
+  $$("[data-tm]").forEach(b => b.onclick = async () => {
+    const x = TERMS.find(t => t.id == b.dataset.tm), list = SECS.map((s, i) => `${i + 1}. ${s.name}`).join("\n");
+    const k = prompt(`Перенести «${x.value}» в раздел — введите номер:\n\n${list}`); const sec = SECS[(+k || 0) - 1]; if (!sec) return;
+    await api("/api/terms/update", {id: x.id, section: sec.name}); x.section = sec.name; openSecs.add(sec.name); renderSecs();
+  });
+  $("#exAdd").onclick = async () => { const v = $("#exNew").value.trim(); if (!v) return; await api("/api/terms", {direction: critDir, kind: "exclude", value: v}); loadCriteria(); };
+}
+$("#reclass").onclick = async () => { toast("Пересчитываю…"); const r = await api("/api/terms/reclassify", {}); toast(`Обновлено закупок: ${r.updated}`); loadTenders(); };
+$("#testBtn").onclick = async () => { const r = await api("/api/terms/test", {text: $("#testText").value}); $("#testRes").innerHTML = Object.keys(r.directions).length ? Object.entries(r.directions).map(([k, v]) => `<div style="margin-top:6px"><b>${esc(k)}:</b> ${fmtHits(v)}</div>`).join("") + `<div class="meta">уверенность: ${esc(r.confidence)}</div>` : '<span class="muted">Ни одно направление не сработало</span>'; };
+async function loadQueries(){
+  const j = await api("/api/queries");
+  $("#qList").innerHTML = j.rows.map(q => `<span class="pill ${q.enabled ? "" : "off"}">${esc(q.text)}<button data-qt="${q.id}">${q.enabled ? "◉" : "○"}</button><button data-qd="${q.id}">×</button></span>`).join("");
+  $$("[data-qt]").forEach(b => b.onclick = async () => { const q = j.rows.find(x => x.id == b.dataset.qt); await api("/api/queries", {id: q.id, enabled: q.enabled ? 0 : 1}); loadQueries(); });
+  $$("[data-qd]").forEach(b => b.onclick = async () => { await api("/api/queries/delete", {id: +b.dataset.qd}); loadQueries(); });
+}
+$("#qAdd").onclick = async () => { await api("/api/queries", {text: $("#qNew").value}); $("#qNew").value = ""; loadQueries(); };
+
+// ───────── настройки
+const getp = (o, p) => p.split(".").reduce((a, k) => a?.[k], o);
+async function loadSettings(){
+  SETTINGS = await api("/api/settings");
+  $$("[data-set]").forEach(el => { const v = getp(SETTINGS, el.dataset.set); if (el.type === "checkbox") el.checked = !!v; else el.value = v ?? ""; });
+  loadCreds();
+}
+$$("[data-set]").forEach(el => el.onchange = async () => {
+  const [a, b] = el.dataset.set.split("."); const v = el.type === "checkbox" ? el.checked : el.type === "number" ? +el.value : el.value;
+  await api("/api/settings", {[a]: {[b]: v}}); toast("Сохранено");
+});
+const PLAT = [
+  {id:"b2b", name:"B2B-Center", note:"С входом видно больше результатов поиска и документация процедур."},
+  {id:"sber", name:"Сбербанк-АСТ", note:"Поиск и документация работают без входа. Логин сохраните на будущее (участие, личные уведомления)."},
+  {id:"brif", name:"БРИФ Росатома", note:"Закупки БРИФ видны только в личном кабинете аккредитованного поставщика. Подключение делается отдельным шагом — вход в кабинет Росатома устроен иначе, чем у других площадок."},
+];
+async function loadCreds(){
+  const c = await api("/api/credentials");
+  $("#creds").innerHTML = PLAT.map(p => `<h3>${p.name}</h3><div class="row"><input type="text" id="lg-${p.id}" placeholder="Логин" value="${esc(c[p.id]?.login || "")}" style="flex:1">
+    <input type="password" id="pw-${p.id}" placeholder="${c[p.id]?.has_password ? "пароль сохранён" : "Пароль"}" style="flex:1" autocomplete="new-password"></div>
+    <div class="row" style="margin-top:6px"><button class="btn small" data-cs="${p.id}">Сохранить</button>${p.id === "b2b" ? `<button class="btn small" data-ct="${p.id}">Проверить вход</button>` : ""}<button class="btn small danger" data-cc="${p.id}">Удалить</button><span class="small muted" id="cr-${p.id}"></span></div><div class="note">${p.note}</div>`).join("");
+  $$("[data-cs]").forEach(b => b.onclick = async () => { const id = b.dataset.cs; await api("/api/credentials", {platform:id, login: $("#lg-" + id).value, password: $("#pw-" + id).value}); $("#pw-" + id).value = ""; toast("Сохранено"); loadCreds(); });
+  $$("[data-cc]").forEach(b => b.onclick = async () => { await api("/api/credentials", {platform:b.dataset.cc, clear:true}); loadCreds(); });
+  $$("[data-ct]").forEach(b => b.onclick = async () => { $("#cr-" + b.dataset.ct).textContent = "проверяю…"; const r = await api("/api/credentials/test", {platform:b.dataset.ct}); $("#cr-" + b.dataset.ct).textContent = r.result; });
+}
+
+// ───────── журнал
+async function loadRuns(){
+  const j = await api("/api/runs");
+  $("#runs").innerHTML = j.rows.map(r => { const s = JSON.parse(r.summary || "{}");
+    const errs = Object.entries(s.errors || {}).map(([k, v]) => `<div class="small" style="color:var(--warn)">${esc(k)}: ${esc(v[0])}</div>`).join("");
+    return `<div class="li" style="align-items:flex-start"><div class="grow"><b>${esc(r.started)}</b> → ${esc(r.finished || "…")} · ${r.status === "ok" ? "успешно" : esc(r.status)}
+      <div class="meta">найдено ${s.found ?? "—"}, активных ${s.active ?? "—"}, сохранено ${s.saved ?? "—"}, новых ${s.new ?? "—"} (релевантных ${s.new_relevant ?? "—"}), документация ${s.docs_scanned ?? "—"}, планы ${s.plans ?? "—"}</div>${errs}</div>
+      <button class="btn small" data-log="${r.id}">Лог</button></div>`; }).join("") || '<div class="muted">Запусков ещё не было</div>';
+  $$("[data-log]").forEach(b => b.onclick = async () => { const l = await api("/api/run_log?id=" + b.dataset.log); $("#liveLog").textContent = l.log || "—"; window.scrollTo(0, 0); });
+}
+
+poll(); loadTenders();
+</script>
+</body>
+</html>
