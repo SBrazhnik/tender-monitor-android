@@ -18,14 +18,14 @@ object Bridge {
         val i = Intent(ctx, KeepAliveService::class.java)
         try {
             if (Build.VERSION.SDK_INT >= 26) ctx.startForegroundService(i) else ctx.startService(i)
-        } catch (_: Exception) {
+        } catch (ignored: Exception) {
             // из фона Android может не разрешить — тогда поиск просто идёт, пока жив процесс
         }
     }
 
     @JvmStatic
     fun searchFinished() {
-        try { ctx.stopService(Intent(ctx, KeepAliveService::class.java)) } catch (_: Exception) {}
+        try { ctx.stopService(Intent(ctx, KeepAliveService::class.java)) } catch (ignored: Exception) {}
     }
 
     @JvmStatic
@@ -44,7 +44,7 @@ object Bridge {
             .build()
         try {
             NotificationManagerCompat.from(ctx).notify(1001, n)
-        } catch (_: SecurityException) {
+        } catch (ignored: SecurityException) {
             // нет разрешения на уведомления
         }
     }

@@ -54,7 +54,7 @@ class MainActivity : Activity() {
                 val u = req.url
                 if (u.host == "127.0.0.1" || u.host == "localhost") return false
                 // ссылки на площадки и документы открываем во внешнем браузере
-                try { startActivity(Intent(Intent.ACTION_VIEW, u)) } catch (_: Exception) {}
+                try { startActivity(Intent(Intent.ACTION_VIEW, u)) } catch (ignored: Exception) {}
                 return true
             }
 

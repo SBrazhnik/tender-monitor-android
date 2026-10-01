@@ -23,7 +23,7 @@ class SearchWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         try {
-            try { setForeground(getForegroundInfo()) } catch (_: Exception) {}
+            try { setForeground(getForegroundInfo()) } catch (ignored: Exception) {}
             if (!Python.isStarted()) Python.start(AndroidPlatform(applicationContext))
             Python.getInstance().getModule("tender_app.android_entry")
                 .callAttr("run_once", applicationContext.filesDir.absolutePath)
