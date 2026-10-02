@@ -26,7 +26,7 @@ class KeepAliveService : Service() {
         fun workNotification(s: android.content.Context) =
             NotificationCompat.Builder(s, TenderApp.CH_WORK)
                 .setSmallIcon(R.drawable.ic_stat_logo)
-                .setColor(0xFFF8961D.toInt())
+                .setColor(0xFFFF6A13.toInt())
                 .setContentTitle("Идёт поиск закупок")
                 .setContentText("ЕИС, Сбербанк-АСТ, B2B-Center, Росатом")
                 .setOngoing(true)

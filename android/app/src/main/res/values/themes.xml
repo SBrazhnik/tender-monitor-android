@@ -4,6 +4,6 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowBackground">@android:color/white</item>
     </style>
-    <color name="ic_bg">#FFFFFF</color>
-    <color name="brand">#F8961D</color>
+    <color name="ic_bg">#0E1F45</color>
+    <color name="brand">#FF6A13</color>
 </resources>

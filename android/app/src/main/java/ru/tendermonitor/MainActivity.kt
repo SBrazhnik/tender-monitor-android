@@ -20,6 +20,8 @@ import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.chaquo.python.Python
 import org.json.JSONObject
 import kotlin.concurrent.thread
@@ -38,12 +40,21 @@ class MainActivity : Activity() {
             text = "Запуск…"
             textSize = 18f
             gravity = Gravity.CENTER
-            setTextColor(Color.parseColor("#F8961D"))
+            setTextColor(Color.parseColor("#0E1F45"))
             setBackgroundColor(Color.WHITE)
         }
         root.addView(web)
         root.addView(splash)
+        root.setBackgroundColor(Color.WHITE)
         setContentView(root)
+        // Android 15+ рисует приложение под строкой состояния и панелью навигации:
+        // отступаем на их высоту (и на высоту клавиатуры), чтобы интерфейс под них не заезжал
+        ViewCompat.setOnApplyWindowInsetsListener(root) { v, insets ->
+            val bars = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout() or WindowInsetsCompat.Type.ime())
+            v.setPadding(bars.left, bars.top, bars.right, bars.bottom)
+            WindowInsetsCompat.CONSUMED
+        }
 
         web.settings.javaScriptEnabled = true
         web.settings.domStorageEnabled = true

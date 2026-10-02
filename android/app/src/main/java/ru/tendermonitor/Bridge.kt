@@ -35,7 +35,7 @@ object Bridge {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
         val n = NotificationCompat.Builder(ctx, TenderApp.CH_NEW)
             .setSmallIcon(R.drawable.ic_stat_logo)
-            .setColor(0xFFF8961D.toInt())
+            .setColor(0xFFFF6A13.toInt())
             .setContentTitle(title)
             .setContentText(summary)
             .setStyle(NotificationCompat.BigTextStyle().bigText(summary + "\n" + lines))
