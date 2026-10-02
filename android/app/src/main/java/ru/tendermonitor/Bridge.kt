@@ -34,7 +34,8 @@ object Bridge {
             ctx, 0, Intent(ctx, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
         val n = NotificationCompat.Builder(ctx, TenderApp.CH_NEW)
-            .setSmallIcon(R.drawable.ic_stat)
+            .setSmallIcon(R.drawable.ic_stat_logo)
+            .setColor(0xFFF8961D.toInt())
             .setContentTitle(title)
             .setContentText(summary)
             .setStyle(NotificationCompat.BigTextStyle().bigText(summary + "\n" + lines))

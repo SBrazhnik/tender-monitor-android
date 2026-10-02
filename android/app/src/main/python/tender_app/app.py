@@ -310,7 +310,7 @@ class App:
                 net = S.settings()["network"]
                 http = Http(net["request_delay"], net["timeout"], net.get("proxy", ""), net.get("ssl_verify", True),
                             ca_dir=self.data_dir)
-                return {"result": B2B(http).login(login, pwd)}
+                return {"result": B2B(http).diagnose(login, pwd)}
             return {"result": "Для этой площадки проверка входа пока не реализована"}
 
         # запуск

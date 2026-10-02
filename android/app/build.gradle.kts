@@ -13,7 +13,7 @@ android {
         minSdk = 26
         targetSdk = 35
         versionCode = (System.getenv("GITHUB_RUN_NUMBER") ?: "1").toInt()
-        versionName = "2.1." + (System.getenv("GITHUB_RUN_NUMBER") ?: "0")
+        versionName = "2.2." + (System.getenv("GITHUB_RUN_NUMBER") ?: "0")
         ndk {
             abiFilters += listOf("arm64-v8a", "x86_64")
         }

@@ -299,6 +299,17 @@ class Engine:
             else:
                 stale += 1
         P.log(f"Найдено {len(found)}, активных {len(active)}, отброшено неактуальных {stale}")
+        names = {"eis": "ЕИС", "sber": "Сбербанк-АСТ", "b2b": "B2B-Center", "rosatom": "Росатом"}
+        by_source = {}
+        for k, title in names.items():
+            if src.get(k):
+                by_source[title] = sum(1 for t in found.values()
+                                       if t["source"].startswith(title) or title in (t.get("also") or []))
+        if by_source and modes.get("notices"):
+            P.log("По площадкам: " + ", ".join(f"{k} — {v}" for k, v in by_source.items()))
+        for title, note in (("B2B-Center", b2b.note()),):
+            if note and src.get("b2b") and modes.get("notices"):
+                P.log(f"{title}: {note}")
 
         # позиции из печатной формы ЕИС: для новых закупок (для уже известных — из базы)
         need = []
@@ -462,7 +473,7 @@ class Engine:
         P.summary = {
             "found": len(found), "active": len(active), "saved": len(keep), "new": len(new_keys),
             "new_relevant": len(new_rel), "docs_scanned": docs_done, "plans": plans_n,
-            "errors": {k: v[:3] for k, v in errors.items()},
+            "errors": {k: v[:3] for k, v in errors.items()}, "by_source": by_source,
         }
         P.log(f"Итого: новых релевантных {len(new_rel)}; документация проверена у {docs_done}; позиций планов {plans_n}")
         first_run = self.store.kv("first_run_done") is None

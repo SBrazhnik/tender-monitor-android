@@ -38,7 +38,7 @@ class MainActivity : Activity() {
             text = "Запуск…"
             textSize = 18f
             gravity = Gravity.CENTER
-            setTextColor(Color.parseColor("#2F5EA8"))
+            setTextColor(Color.parseColor("#F8961D"))
             setBackgroundColor(Color.WHITE)
         }
         root.addView(web)
@@ -130,9 +130,9 @@ class MainActivity : Activity() {
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
-        if (web.canGoBack()) web.goBack() else {
-            @Suppress("DEPRECATION")
-            super.onBackPressed()
+        // сначала даём интерфейсу закрыть открытую карточку или вернуться к списку закупок
+        web.evaluateJavascript("(window.appBack && window.appBack()) ? 1 : 0") { handled ->
+            if (handled != "1") moveTaskToBack(true)
         }
     }
 }

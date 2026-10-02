@@ -379,6 +379,34 @@ class B2B:
     def __init__(self, http: Http):
         self.http = http
         self.logged_in = False
+        self.requests = 0          # сколько страниц поиска запрошено
+        self.rows = 0              # сколько процедур на них разобрано
+        self.odd: list[str] = []   # заголовки страниц, не похожих на результаты поиска
+
+    def note(self) -> str:
+        """Пояснение для журнала, если площадка отвечает, но результатов нет."""
+        if not self.requests:
+            return ""
+        if self.odd:
+            return (f"из {self.requests} запросов {len(self.odd)} вернули не страницу поиска "
+                    f"(«{self.odd[0]}») — возможно, площадка показывает проверку или требует вход")
+        if not self.rows:
+            return f"на {self.requests} запросов площадка не вернула ни одной процедуры"
+        return ""
+
+    def diagnose(self, login: str, password: str) -> str:
+        """Проверка для вкладки «Площадки»: вход и пробный поиск."""
+        parts = []
+        try:
+            parts.append("вход: " + self.login(login, password))
+        except Exception as e:  # noqa: BLE001
+            parts.append(f"вход: ошибка — {e}")
+        try:
+            n = len(self.search("сервер"))
+            parts.append(f"пробный поиск «сервер»: найдено {n}" + (f" ({self.note()})" if not n and self.note() else ""))
+        except Exception as e:  # noqa: BLE001
+            parts.append(f"пробный поиск: ошибка — {e}")
+        return "; ".join(parts)
 
     def login(self, login: str, password: str) -> str:
         """Вход по логину и паролю. Возвращает текст статуса."""
@@ -407,7 +435,13 @@ class B2B:
         if firm_id:
             params["firm_id"] = firm_id
         r = self.http.get(B2B_URL + "/market/", params=params)
-        return self.parse(r.text)
+        res = self.parse(r.text)
+        self.requests += 1
+        self.rows += len(res)
+        if not res and "f_keyword" not in r.text and "search-results" not in r.text:
+            m = re.search(r"<title[^>]*>(.*?)</title>", r.text, re.S | re.I)
+            self.odd.append(norm(m.group(1))[:80] if m else f"ответ {len(r.text)} символов без заголовка")
+        return res
 
     @staticmethod
     def parse(page_html: str) -> list[dict]:

@@ -2,99 +2,129 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Мониторинг закупок</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>Закупки</title>
+<link rel="icon" href="data:image/png;base64,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">
 <style>
 :root{
-  --bg:#f5f6f8; --panel:#fff; --ink:#1b2330; --muted:#5f6a7a; --line:#e2e6ec; --soft:#f0f3f7;
-  --accent:#2f5ea8; --accent-ink:#fff; --accent-soft:#e7eefa;
-  --ok:#1f8a5b; --warn:#c0392b; --new:#b36b00; --new-bg:#fff3dc; --fav:#7a4fc4; --fav-bg:#f0e9fb;
-  --c0:#2f6fd6; --c0b:#e6effd; --c1:#b0364a; --c1b:#fbe9ec; --c2:#1f8a5b; --c2b:#e3f5ec; --c3:#8a6a1f; --c3b:#f7f0dc; --c4:#5b4fc4; --c4b:#ecebfb;
+  --bg:#f4f5f7; --panel:#fff; --ink:#15181d; --muted:#666d78; --line:#e2e5ea; --soft:#eef0f3;
+  --brand:#f8961d; --on-brand:#231500; --brand-text:#9a5600; --brand-soft:#fff2df;
+  --ok:#1f8a5b; --warn:#c0392b; --new:#9a5600; --new-bg:#fff2df; --fav:#7a4fc4; --fav-bg:#f0e9fb;
+  --c0:#2f6fd6; --c0b:#e6effd; --c1:#b0364a; --c1b:#fbe9ec; --c2:#1f8a5b; --c2b:#e3f5ec; --c3:#5b4fc4; --c3b:#ecebfb; --c4:#0f7c8a; --c4b:#e0f3f5;
+  --tabbar:0px;
 }
 @media (prefers-color-scheme: dark){
   :root{
-    --bg:#11151b; --panel:#191f28; --ink:#e5e9ef; --muted:#97a2b2; --line:#29313c; --soft:#1f2631;
-    --accent:#7aa7f0; --accent-ink:#0d1420; --accent-soft:#1f2b3d;
-    --ok:#6fd3a3; --warn:#ff7b6b; --new:#f2b457; --new-bg:#3a2c12; --fav:#b99af0; --fav-bg:#2a2140;
-    --c0:#8db4f5; --c0b:#1c2a40; --c1:#f08a9a; --c1b:#3a1e25; --c2:#6fd3a3; --c2b:#16332a; --c3:#e0c27a; --c3b:#342b16; --c4:#aea6f5; --c4b:#24223f;
+    --bg:#101317; --panel:#181c22; --ink:#e8ebef; --muted:#98a1ad; --line:#2a3038; --soft:#20252d;
+    --brand:#f8961d; --on-brand:#231500; --brand-text:#ffb454; --brand-soft:#33240d;
+    --ok:#6fd3a3; --warn:#ff7b6b; --new:#ffb454; --new-bg:#33240d; --fav:#b99af0; --fav-bg:#2a2140;
+    --c0:#8db4f5; --c0b:#1c2a40; --c1:#f08a9a; --c1b:#3a1e25; --c2:#6fd3a3; --c2b:#16332a; --c3:#aea6f5; --c3b:#24223f; --c4:#6fd0dc; --c4b:#12323a;
   }
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;overflow-x:hidden}
 button,input,select,textarea{font:inherit;color:inherit}
+button{-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+[hidden]{display:none!important}
+
 header{position:sticky;top:0;z-index:5;background:var(--panel);border-bottom:1px solid var(--line)}
-.hwrap{max-width:1500px;margin:0 auto;padding:10px 20px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
-h1{font-size:17px;margin:0;font-weight:650;white-space:nowrap}
-nav{display:flex;gap:2px;flex-wrap:wrap}
-nav button{border:0;background:none;padding:7px 11px;border-radius:8px;cursor:pointer;color:var(--muted)}
-nav button.on{background:var(--accent-soft);color:var(--accent);font-weight:600}
-.runbox{margin-left:auto;display:flex;gap:10px;align-items:center}
-.btn{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:6px 12px;cursor:pointer}
-.btn:hover{border-color:var(--accent)}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
-.btn.small{padding:3px 8px;font-size:12px}
+.hwrap{max-width:1320px;margin:0 auto;padding:8px 20px;display:flex;gap:20px;align-items:center}
+.brand{display:flex;gap:10px;align-items:center;min-width:0}
+.brand img{width:34px;height:auto;flex:none}
+.brand h1{font-size:16px;margin:0;font-weight:650;line-height:1.2}
+.brand .st{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:52vw}
+nav{display:flex;gap:2px}
+nav button{border:0;background:none;padding:8px 12px;border-radius:8px;cursor:pointer;color:var(--muted);display:flex;gap:6px;align-items:center}
+nav button svg{display:none;width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+nav button.on{color:var(--brand-text);background:var(--brand-soft);font-weight:600}
+.runbox{margin-left:auto;display:flex;gap:8px;align-items:center;flex:none}
+.btn{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:7px 13px;cursor:pointer;white-space:nowrap}
+.btn:hover{border-color:var(--brand)}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:var(--on-brand);font-weight:600}
+.btn.small{padding:4px 9px;font-size:12px}
 .btn.danger{color:var(--warn)}
-.bar{height:3px;background:var(--line);position:relative;overflow:hidden}
-.bar i{position:absolute;left:0;top:0;bottom:0;background:var(--accent);transition:width .4s}
+.bar{height:3px;position:relative;overflow:hidden}
+.bar i{position:absolute;left:0;top:0;bottom:0;background:var(--brand);transition:width .4s}
 .muted{color:var(--muted)} .small{font-size:12px}
-main{max-width:1500px;margin:0 auto;padding:16px 20px 60px}
+main{max-width:1320px;margin:0 auto;padding:16px 20px calc(40px + var(--tabbar))}
 section{display:none} section.on{display:block}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:12px}
 .pad{padding:14px 16px}
 .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
-.chip{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:5px 11px;cursor:pointer;white-space:nowrap}
-.chip.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-input[type=text],input[type=search],input[type=number],input[type=password],select,textarea{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:6px 10px}
-input[type=search]{min-width:200px;flex:1}
-select{max-width:100%}
+.chips{display:flex;gap:6px;align-items:center;overflow-x:auto;scrollbar-width:none;margin-bottom:10px;padding-bottom:1px}
+.chips::-webkit-scrollbar{display:none}
+.chip{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:6px 12px;cursor:pointer;white-space:nowrap;flex:none}
+.chip b{font-weight:600;margin-left:5px;color:var(--muted)}
+.chip.on{background:var(--ink);border-color:var(--ink);color:var(--panel)}
+.chip.on b{color:inherit;opacity:.75}
+.linkbtn{border:0;background:none;color:var(--brand-text);cursor:pointer;padding:6px 4px;white-space:nowrap;flex:none}
+input[type=text],input[type=search],input[type=number],input[type=password],select,textarea{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:7px 10px;min-width:0;max-width:100%}
 textarea{width:100%;min-height:70px;resize:vertical}
-.kpis{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
-.kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 14px}
-.kpi b{font-size:20px;display:block}
-.kpi span{font-size:12px;color:var(--muted)}
+.tools{display:flex;gap:8px;align-items:center;position:relative;margin-bottom:10px}
+.tools input[type=search]{flex:1}
+.badge{display:inline-block;min-width:18px;text-align:center;border-radius:9px;background:var(--brand);color:var(--on-brand);font-size:11px;font-weight:700;padding:1px 5px;margin-left:6px}
+.menu{position:absolute;right:0;top:calc(100% + 6px);z-index:6;background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 30px rgba(0,0,0,.14);padding:4px;min-width:250px}
+.menu button{display:block;width:100%;text-align:left;border:0;background:none;padding:10px 12px;border-radius:7px;cursor:pointer}
+.menu button:hover{background:var(--soft)}
+.fpanel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;margin-bottom:8px}
+.fgrid select,.fgrid input{width:100%}
+.sumline{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;color:var(--muted);font-size:12px;margin:0 2px 8px}
 table{width:100%;border-collapse:collapse}
-th{background:var(--panel);text-align:left;font-size:12px;color:var(--muted);font-weight:600;padding:9px 10px;border-bottom:1px solid var(--line);cursor:pointer;white-space:nowrap;z-index:1}
-td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
-tr.hid td{opacity:.5}
-tr.irr td{opacity:.7}
+th{text-align:left;font-size:12px;color:var(--muted);font-weight:600;padding:9px 12px;border-bottom:1px solid var(--line);cursor:pointer;white-space:nowrap}
+td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:var(--soft)}
+tbody tr:last-child td{border-bottom:0}
+tr.hid td{opacity:.5} tr.irr td{opacity:.7}
 .tag{display:inline-block;font-size:11px;font-weight:600;border-radius:6px;padding:2px 7px;margin:0 4px 4px 0;white-space:nowrap}
 .t-new{color:var(--new);background:var(--new-bg)} .t-fav{color:var(--fav);background:var(--fav-bg)}
 .t-plan{color:var(--muted);background:var(--soft)}
 .title{font-weight:560}
-.title a{color:inherit;text-decoration:none} .title a:hover{color:var(--accent);text-decoration:underline}
-.meta{font-size:12px;color:var(--muted);margin-top:3px}
-.hits{font-size:12px;margin-top:4px}
+.title a{color:inherit;text-decoration:none} .title a:hover{color:var(--brand-text);text-decoration:underline}
+.meta{font-size:12px;color:var(--muted);margin-top:3px;overflow-wrap:anywhere}
+.hits{font-size:12px;margin-top:4px;overflow-wrap:anywhere}
 .hits i{font-style:normal;color:var(--muted)}
+.c-main .hits{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.c-cust{width:24%;overflow-wrap:anywhere}
 .num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.c-dl{white-space:nowrap}
 .hot{color:var(--warn);font-weight:600}
-.acts{white-space:nowrap}
-.icon{border:0;background:none;cursor:pointer;padding:3px 5px;border-radius:6px;color:var(--muted);font-size:15px}
-.icon:hover{background:var(--soft);color:var(--ink)}
-.icon.on{color:var(--fav)}
-.empty{padding:40px;text-align:center;color:var(--muted)}
+.acts{white-space:nowrap;text-align:right}
+.icon{border:0;background:none;cursor:pointer;width:32px;height:32px;border-radius:8px;color:var(--muted);font-size:16px;line-height:1;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.icon:hover{background:var(--line);color:var(--ink)}
+.icon.on{color:var(--brand-text)}
+.empty{padding:36px 20px;text-align:center;color:var(--muted)}
 .drawer{position:fixed;top:0;right:0;bottom:0;width:min(720px,100%);background:var(--panel);border-left:1px solid var(--line);box-shadow:-10px 0 30px rgba(0,0,0,.12);z-index:20;display:none;flex-direction:column}
 .drawer.on{display:flex}
 .drawer .dh{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;gap:10px;align-items:flex-start}
-.drawer .db{padding:14px 18px;overflow:auto;flex:1}
+.drawer .db{padding:14px 18px 30px;overflow:auto;flex:1}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:5px 14px;margin:12px 0}
+.kv dt{color:var(--muted)} .kv dd{margin:0;overflow-wrap:anywhere}
 .doc{border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin-bottom:8px}
 pre.text{white-space:pre-wrap;font:12px/1.5 ui-monospace,Consolas,monospace;background:var(--soft);padding:10px;border-radius:8px;max-height:60vh;overflow:auto}
 mark{background:#ffe08a;color:#1b2330;border-radius:2px}
-.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:14px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr));gap:14px}
+.crit-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(280px,1fr);gap:14px;margin-top:14px}
 .list{max-height:420px;overflow:auto;border:1px solid var(--line);border-radius:8px}
-.li{display:flex;gap:8px;align-items:center;padding:6px 10px;border-bottom:1px solid var(--line)}
+.li{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:8px 10px;border-bottom:1px solid var(--line)}
 .li:last-child{border-bottom:0}
-.li .grow{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}
-.pill{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);border-radius:999px;padding:2px 4px 2px 9px;margin:0 5px 5px 0;font-size:12px;background:var(--panel)}
+.li .grow{flex:1 1 200px;min-width:0;overflow-wrap:anywhere}
+.pill{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);border-radius:999px;padding:2px 4px 2px 9px;margin:0 5px 5px 0;font-size:12px;background:var(--panel);max-width:100%;overflow-wrap:anywhere}
 .pill.off{opacity:.45;text-decoration:line-through}
-.pill button{border:0;background:none;cursor:pointer;color:var(--muted);padding:0 4px}
+.pill button{border:0;background:none;cursor:pointer;color:var(--muted);padding:2px 5px}
 .grp{margin-bottom:10px}
 .grp b{font-size:12px;color:var(--muted);display:block;margin-bottom:4px}
-label.sw{display:flex;gap:8px;align-items:center;padding:4px 0;cursor:pointer}
+label.sw{display:flex;gap:8px;align-items:center;padding:5px 0;cursor:pointer}
 h2{font-size:15px;margin:0 0 10px}
-h3{font-size:13px;margin:14px 0 8px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+h3{font-size:13px;margin:16px 0 8px;font-weight:600}
 .note{font-size:12px;color:var(--muted);margin-top:6px}
-.log{font:12px/1.5 ui-monospace,Consolas,monospace;white-space:pre-wrap;max-height:420px;overflow:auto;background:var(--soft);padding:10px;border-radius:8px}
+details.help{margin-top:14px}
+details.help summary{cursor:pointer;font-weight:600}
+.log{font:12px/1.5 ui-monospace,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;max-height:420px;overflow:auto;background:var(--soft);padding:10px;border-radius:8px}
 .sec{border:1px solid var(--line);border-radius:10px;margin-bottom:10px;background:var(--panel)}
 .sec.off{opacity:.55}
 .sec-h{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;cursor:pointer}
@@ -106,43 +136,81 @@ h3{font-size:13px;margin:14px 0 8px;color:var(--muted);text-transform:uppercase;
 .caret{color:var(--muted);transition:transform .2s;display:inline-block}
 .sec.open .caret{transform:rotate(90deg)}
 .addrow{display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
-.addrow textarea{min-height:36px;flex:1;min-width:200px}
+.addrow textarea{min-height:36px;flex:1 1 200px}
 .ov-dir{margin-bottom:18px}
 .ov-sec{padding:8px 0;border-top:1px solid var(--line)}
 .ov-sec b{font-size:13px}
 .ov-sm{display:inline-block;font-size:11px;background:var(--soft);border-radius:5px;padding:1px 6px;margin:3px 3px 0 0}
 .hitsec{color:var(--muted)}
+.subnav{display:flex;gap:6px;margin-bottom:12px}
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:25;display:none;align-items:center;justify-content:center;padding:16px}
 .modal-bg.on{display:flex}
 .modal{background:var(--panel);border-radius:14px;padding:18px;width:min(520px,100%);box-shadow:0 20px 50px rgba(0,0,0,.25)}
 .modal h2{margin-bottom:12px}
 .modal .row{margin-bottom:8px}
-.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--panel);padding:9px 16px;border-radius:10px;opacity:0;transition:opacity .3s;z-index:30;pointer-events:none}
+.toast{position:fixed;bottom:calc(18px + var(--tabbar));left:50%;transform:translateX(-50%);background:var(--ink);color:var(--panel);padding:9px 16px;border-radius:10px;opacity:0;transition:opacity .3s;z-index:30;pointer-events:none;max-width:calc(100vw - 32px);text-align:center}
 .toast.on{opacity:.95}
-@media (max-width:900px){
-  .hwrap,main{padding-left:14px;padding-right:14px}
-  thead{display:none} table,tbody,tr,td{display:block;width:100%} tr{border-bottom:1px solid var(--line);padding:6px 0} td{border:0;padding:3px 12px}
-  .num{text-align:left} .runbox{margin-left:0}
+.narrow-only{display:none}
+body[data-platform=android] .win-only{display:none}
+body:not([data-platform=android]) .android-only{display:none}
+
+@media (max-width:860px){
+  :root{--tabbar:58px}
+  body{font-size:15px}
+  .hwrap{padding:8px 14px;gap:10px}
+  main{padding:12px 14px calc(24px + var(--tabbar))}
+  nav{position:fixed;left:0;right:0;bottom:0;z-index:15;background:var(--panel);border-top:1px solid var(--line);height:var(--tabbar);gap:0;padding-bottom:env(safe-area-inset-bottom)}
+  nav button{flex:1 1 0;flex-direction:column;gap:2px;justify-content:center;padding:4px 1px;border-radius:0;font-size:10.5px;min-width:0;overflow:hidden;white-space:nowrap}
+  nav button svg{display:block}
+  nav button.on{background:none;font-weight:500}
+  .wide-only{display:none!important}
+  .btn{padding:9px 13px}
+  .btn.small{padding:6px 10px}
+  .card.tbl{border:0;background:none}
+  thead{display:none}
+  table,tbody{display:block}
+  tbody tr{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;position:relative;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:8px}
+  tbody tr:hover{background:var(--panel)}
+  td{display:block;border:0;padding:0}
+  .c-main,.c-cust{flex:0 0 100%;width:auto;min-width:0}
+  .c-main .tags{padding-right:108px;min-height:30px}
+  .c-cust{font-size:13px;color:var(--muted)}
+  .narrow-only{display:inline}
+  .c-price{text-align:left;font-weight:600}
+  .c-price .muted{font-weight:400;font-size:13px}
+  .c-dl{flex:1 1 auto;text-align:right;white-space:normal;font-size:13px}
+  .c-dl::before{content:"до ";color:var(--muted)}
+  .c-dl .meta{display:inline;margin-left:6px}
+  .acts{position:absolute;top:6px;right:6px}
+  .icon{width:36px;height:36px;font-size:18px}
+  .fgrid{grid-template-columns:1fr 1fr}
+  .crit-grid{grid-template-columns:minmax(0,1fr)}
+  .sec-h{flex-wrap:wrap;gap:4px 10px}
+  .sec-h > div{flex:1 1 0}
+  .sec-h .ct{order:5;flex:1 1 100%;white-space:normal;padding-left:22px}
+  .drawer{border-left:0}
+  .drawer .dh,.drawer .db{padding-left:14px;padding-right:14px}
+  .menu{left:0;right:0;min-width:0}
+  .li .btn.small{flex:none}
 }
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 <header>
   <div class="hwrap">
-    <h1>Мониторинг закупок</h1>
+    <div class="brand"><img src="data:image/png;base64,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" alt="">
+      <div style="min-width:0"><h1>Закупки</h1><div class="st" id="runinfo"></div></div></div>
     <nav id="nav">
-      <button data-s="tenders" class="on">Закупки</button>
-      <button data-s="docsearch">Поиск в документах</button>
-      <button data-s="customers">Заказчики</button>
-      <button data-s="criteria">Направления</button>
-      <button data-s="platforms">Площадки</button>
-      <button data-s="settings">Расписание</button>
-      <button data-s="journal">Журнал</button>
+      <button data-s="tenders" class="on"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Закупки</button>
+      <button data-s="docsearch"><svg viewBox="0 0 24 24"><path d="M13 3H6v18h7M13 3l5 5v3M13 3v5h5"/><circle cx="16.5" cy="16.5" r="3"/><path d="M19 19l2.5 2.5"/></svg>Документы</button>
+      <button data-s="customers"><svg viewBox="0 0 24 24"><path d="M4 21V6l8-3v18M12 10l8 2v9M2 21h20M7.5 9.5h1M7.5 13h1M7.5 16.5h1M16 15h.5M16 18h.5"/></svg>Заказчики</button>
+      <button data-s="criteria"><svg viewBox="0 0 24 24"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.3"/></svg>Направления</button>
+      <button data-s="platforms"><svg viewBox="0 0 24 24"><path d="M4 7h9M19 7h1M4 17h1M11 17h9"/><circle cx="16" cy="7" r="2.5"/><circle cx="8" cy="17" r="2.5"/></svg>Настройки</button>
     </nav>
     <div class="runbox">
-      <span class="small muted" id="runinfo"></span>
-      <button class="btn" id="stopBtn" hidden>Остановить</button>
-      <button class="btn primary" id="runBtn">Запустить поиск</button>
+      <button class="btn" id="stopBtn" hidden>Стоп</button>
+      <button class="btn primary" id="runBtn">Искать</button>
     </div>
   </div>
   <div class="bar"><i id="barFill" style="width:0"></i></div>
@@ -151,38 +219,42 @@ h3{font-size:13px;margin:14px 0 8px;color:var(--muted);text-transform:uppercase;
 <main>
 <!-- ═════════ Закупки ═════════ -->
 <section id="s-tenders" class="on">
-  <div class="kpis" id="kpis"></div>
-  <div class="filters" id="dirChips"></div>
-  <div class="filters">
-    <select id="fKind"><option value="notice">Объявленные закупки</option><option value="plan">Планы закупок</option><option value="">Закупки и планы</option></select>
-    <select id="fMode"><option value="">Все источники поиска</option><option value="customer">Мои заказчики</option><option value="market">Весь рынок</option></select>
-    <select id="fCust"><option value="">Любой заказчик</option></select>
-    <select id="fSrc"><option value="">Все площадки</option></select>
-    <select id="fStatus"><option value="active">Новые и в работе</option><option value="new">Только новые</option><option value="favorite">В работе ★</option><option value="viewed">Просмотренные</option><option value="all">Все, кроме скрытых</option><option value="hidden">Скрытые</option></select>
-    <select id="fDays"><option value="">Любой срок</option><option value="3">Подача ≤ 3 дней</option><option value="7">≤ 7 дней</option><option value="14">≤ 14 дней</option></select>
-    <input type="number" id="fPrice" placeholder="НМЦ от, ₽" style="width:130px">
-    <label class="sw small"><input type="checkbox" id="fIrr"> показать нерелевантные закупки заказчиков</label>
+  <div class="chips" id="dirChips"></div>
+  <div class="tools">
+    <input type="search" id="fQ" placeholder="Предмет, вендор, заказчик, номер">
+    <button class="btn" id="fToggle">Фильтры<span class="badge" id="fCount" hidden></span></button>
+    <button class="btn" id="moreBtn" aria-label="Действия со списком" title="Действия со списком">⋯</button>
+    <div class="menu" id="moreMenu" hidden>
+      <button id="markAll">Отметить новые просмотренными</button>
+      <button id="unview">Вернуть просмотренные в новые</button>
+      <button id="exportBtn">Скачать список в Excel</button>
+      <button id="ovBtn">Что входит в направления</button>
+    </div>
   </div>
-  <div class="filters">
-    <input type="search" id="fQ" placeholder="Поиск: предмет, вендор, заказчик, номер, ОКПД2…">
-    <button class="btn" id="markAll" title="Только закупки, которые видны под текущими фильтрами">Отметить новые просмотренными</button>
-    <button class="btn" id="undoMark" hidden>↶ Отменить отметку</button>
-    <button class="btn" id="unview" title="Закупки под текущими фильтрами со статусом «просмотрена» снова станут новыми">Вернуть просмотренные в новые</button>
-    <button class="btn" id="exportBtn">Excel</button>
+  <div class="fpanel" id="fPanel" hidden>
+    <div class="fgrid">
+      <select id="fKind"><option value="notice">Объявленные закупки</option><option value="plan">Планы закупок</option><option value="">Закупки и планы</option></select>
+      <select id="fStatus"><option value="active">Новые и в работе</option><option value="new">Только новые</option><option value="favorite">В работе</option><option value="viewed">Просмотренные</option><option value="all">Все, кроме скрытых</option><option value="hidden">Скрытые</option></select>
+      <select id="fCust"><option value="">Любой заказчик</option></select>
+      <select id="fMode"><option value="">Заказчики и рынок</option><option value="customer">Мои заказчики</option><option value="market">Весь рынок</option></select>
+      <select id="fSrc"><option value="">Все площадки</option></select>
+      <select id="fDays"><option value="">Любой срок подачи</option><option value="3">Подача через 3 дня или раньше</option><option value="7">Через 7 дней или раньше</option><option value="14">Через 14 дней или раньше</option></select>
+      <input type="number" id="fPrice" placeholder="НМЦ от, ₽">
+    </div>
+    <label class="sw small"><input type="checkbox" id="fIrr"> Показывать закупки заказчиков вне направлений</label>
+    <div class="row" style="margin-top:6px"><button class="btn primary" id="runFiltered">Искать по фильтру</button><button class="btn" id="fReset">Сбросить</button></div>
+    <div class="note" id="scopeText"></div>
   </div>
-  <div class="filters">
-    <button class="btn primary" id="runFiltered">🔎 Искать по фильтру</button>
-    <span class="small muted" id="scopeText"></span>
-  </div>
-  <div class="card">
+  <div class="sumline"><span id="summary"></span><button class="btn small" id="undoMark" hidden></button></div>
+  <div class="card tbl">
     <table>
       <thead><tr>
-        <th data-k="dirs">Направление</th><th data-k="title">Закупка</th><th data-k="customer">Заказчик</th>
+        <th data-k="title">Закупка</th><th data-k="customer">Заказчик</th>
         <th data-k="price" class="num">НМЦ, ₽</th><th data-k="deadline_iso">Подача до</th><th></th>
       </tr></thead>
       <tbody id="tb"></tbody>
     </table>
-    <div class="empty" id="empty" hidden>Нет закупок под выбранные фильтры. Запустите поиск или измените фильтры.</div>
+    <div class="empty" id="empty" hidden>Под эти фильтры закупок нет. Нажмите «Искать» или измените фильтры.</div>
   </div>
 </section>
 
@@ -190,8 +262,8 @@ h3{font-size:13px;margin:14px 0 8px;color:var(--muted);text-transform:uppercase;
 <section id="s-docsearch">
   <div class="card pad">
     <h2>Поиск по спецификациям и ТЗ</h2>
-    <div class="row"><input type="search" id="dq" placeholder="Например: Astra Linux, Huawei, S7-1500, MaxPatrol, ПАК ViPNet"><button class="btn primary" id="dqBtn">Найти</button></div>
-    <div class="note">Ищет в тексте скачанной документации (DOCX, XLSX, PDF, DOC, ZIP…). Документация скачивается автоматически при поиске для закупок ваших заказчиков и для закупок, найденных по рынку.</div>
+    <div class="row"><input type="search" id="dq" placeholder="Astra Linux, Huawei, S7-1500, MaxPatrol" style="flex:1"><button class="btn primary" id="dqBtn">Найти</button></div>
+    <div class="note">Ищет в тексте документации, которую приложение скачало при поиске закупок.</div>
   </div>
   <div id="dres" style="margin-top:12px"></div>
 </section>
@@ -200,17 +272,18 @@ h3{font-size:13px;margin:14px 0 8px;color:var(--muted);text-transform:uppercase;
 <section id="s-customers">
   <div class="grid2">
     <div class="card pad">
-      <h2 id="custFormTitle">Добавить заказчика</h2>
-      <input type="hidden" id="cId">
-      <div class="row" style="margin-bottom:8px"><input type="text" id="cInn" placeholder="ИНН" style="width:170px"><button class="btn" id="cLookup">Найти название по ИНН</button><span class="small muted" id="cNote"></span></div>
-      <div class="row" style="margin-bottom:8px"><input type="text" id="cName" placeholder="Наименование" style="flex:1"></div>
-      <textarea id="cAliases" placeholder="Другие названия — по одному в строке. Используются для поиска на Сбербанк-АСТ, B2B-Center и портале Росатома, где нет поиска по ИНН. Например: РИР Энерго"></textarea>
-      <div class="row" style="margin-top:8px"><button class="btn primary" id="cSave">Сохранить</button><button class="btn" id="cReset">Очистить</button></div>
-      <div class="note">Можно указать только ИНН, только название или оба. По ИНН ищем в ЕИС и планах закупок, по названиям — на площадках без поиска по ИНН (с проверкой ИНН, где он есть в ответе площадки).</div>
-    </div>
-    <div class="card pad">
       <h2>Заказчики под наблюдением</h2>
       <div class="list" id="custList"></div>
+    </div>
+    <div class="card pad">
+      <h2 id="custFormTitle">Добавить заказчика</h2>
+      <input type="hidden" id="cId">
+      <div class="row" style="margin-bottom:8px"><input type="text" id="cInn" placeholder="ИНН" inputmode="numeric" style="flex:1"><button class="btn" id="cLookup">Найти название</button></div>
+      <div class="small muted" id="cNote"></div>
+      <div class="row" style="margin-bottom:8px"><input type="text" id="cName" placeholder="Наименование" style="flex:1"></div>
+      <textarea id="cAliases" placeholder="Другие названия, по одному в строке. Например: РИР Энерго"></textarea>
+      <div class="row" style="margin-top:8px"><button class="btn primary" id="cSave">Сохранить</button><button class="btn" id="cReset">Очистить</button></div>
+      <div class="note">По ИНН ищем в ЕИС и планах закупок. По названиям ищем на Сбербанк-АСТ, B2B-Center и портале Росатома: там поиска по ИНН нет.</div>
     </div>
   </div>
 </section>
@@ -218,19 +291,15 @@ h3{font-size:13px;margin:14px 0 8px;color:var(--muted);text-transform:uppercase;
 <!-- ═════════ Направления ═════════ -->
 <section id="s-criteria">
   <div class="card pad">
-    <div class="row" style="justify-content:space-between;align-items:flex-start">
-      <div class="filters" id="critDirs" style="margin:0"></div>
-      <div class="row"><button class="btn" id="dirAddBtn">＋ Направление</button><button class="btn" id="reclass">Пересчитать найденные закупки</button></div>
-    </div>
-    <div style="margin-top:12px">
-      <div class="row"><input type="text" id="dirNameEd" style="font-weight:600;flex:0 1 320px"><label class="sw small"><input type="checkbox" id="dirEnEd"> учитывать при поиске</label><button class="btn small danger" id="dirDel">Удалить направление</button></div>
-      <textarea id="dirDescEd" placeholder="Что входит в направление — описание для себя и коллег" style="min-height:44px;margin-top:6px"></textarea>
-    </div>
+    <div class="chips" id="critDirs"></div>
+    <div class="row"><input type="text" id="dirNameEd" style="font-weight:600;flex:1 1 220px"><label class="sw small"><input type="checkbox" id="dirEnEd"> учитывать при поиске</label></div>
+    <textarea id="dirDescEd" placeholder="Что входит в направление" style="min-height:44px;margin-top:6px"></textarea>
+    <div class="row" style="margin-top:8px"><button class="btn small" id="dirAddBtn">＋ Направление</button><button class="btn small" id="reclass">Пересчитать найденные закупки</button><button class="btn small danger" id="dirDel">Удалить направление</button></div>
   </div>
-  <div class="grid2" style="margin-top:14px;grid-template-columns:minmax(0,2fr) minmax(280px,1fr)">
+  <div class="crit-grid">
     <div>
       <div class="row" style="margin-bottom:10px">
-        <input type="search" id="tFilter" placeholder="Найти признак: Astra, сервер, 26.20…">
+        <input type="search" id="tFilter" placeholder="Найти признак: Astra, сервер, 26.20" style="flex:1 1 180px">
         <button class="btn" id="expandAll">Развернуть все</button>
         <button class="btn primary" id="secAddBtn">＋ Раздел</button>
       </div>
@@ -240,96 +309,100 @@ h3{font-size:13px;margin:14px 0 8px;color:var(--muted);text-transform:uppercase;
     <div>
       <div class="card pad">
         <h2>Проверить на тексте</h2>
-        <textarea id="testText" placeholder="Вставьте название закупки или кусок ТЗ — покажу, какие направления и разделы сработают"></textarea>
+        <textarea id="testText" placeholder="Вставьте название закупки или кусок ТЗ"></textarea>
         <div class="row" style="margin-top:6px"><button class="btn" id="testBtn">Проверить</button></div>
         <div id="testRes" class="hits"></div>
-      </div>
-      <div class="card pad" style="margin-top:14px">
-        <h2>Как работают признаки</h2>
-        <div class="small muted">
-          <p><b>Вендор / продукт</b> — ищется целым словом: «Astra» не сработает на «Астрахань». Вендор объединяет свои продукты (Astra → Astra Linux, ALD Pro, Brest).</p>
-          <p><b>Ключевое слово</b> — по началу слова: «виртуализ» найдёт «виртуализации». Короткие ЗАГЛАВНЫЕ (SIEM, АРМ, ПК) — целым словом с учётом регистра.</p>
-          <p><b>ОКПД2</b> — код или начало кода: «26.20» охватит 26.20.15.000.</p>
-          <p><b>Исключения</b> — фразы, которые не должны давать срабатывание по направлению («Opel Astra», «автоматических выключателей»).</p>
-          <p>Раздел можно выключить целиком — его признаки перестанут учитываться. После правок нажмите «Пересчитать найденные закупки».</p>
-          <p>Для сложных случаев — регулярное выражение с префиксом <code>re:</code>.</p>
-        </div>
+        <details class="help">
+          <summary>Как работают признаки</summary>
+          <div class="small muted">
+            <p><b>Вендор или продукт</b> ищется целым словом: «Astra» не сработает на «Астрахань».</p>
+            <p><b>Ключевое слово</b> ищется по началу слова: «виртуализ» найдёт «виртуализации». Короткие заглавные (SIEM, АРМ, ПК) ищутся целым словом с учётом регистра.</p>
+            <p><b>ОКПД2</b> задаётся кодом или его началом: «26.20» охватит 26.20.15.000.</p>
+            <p><b>Исключения</b> отменяют срабатывание: «Opel Astra», «автоматических выключателей».</p>
+            <p>После правок нажмите «Пересчитать найденные закупки». Для сложных случаев есть регулярные выражения с префиксом <code>re:</code>.</p>
+          </div>
+        </details>
       </div>
     </div>
   </div>
   <div class="card pad" style="margin-top:14px">
-    <h2>Поисковые фразы для режима «весь рынок»</h2>
-    <div class="note" style="margin-top:0;margin-bottom:8px">По этим фразам ищем закупки у всех заказчиков в ЕИС, на Сбербанк-АСТ и B2B-Center. Найденное проверяется по признакам направлений и по документации — в результатах остаются только закупки выбранных направлений.</div>
-    <div class="row" style="margin-bottom:8px"><textarea id="qNew" placeholder="Новые фразы — по одной в строке" style="min-height:44px;flex:1"></textarea><button class="btn primary" id="qAdd">Добавить</button></div>
+    <h2>Поисковые фразы для всего рынка</h2>
+    <div class="note" style="margin-top:0;margin-bottom:8px">По этим фразам ищем закупки у всех заказчиков. В результатах остаются только закупки ваших направлений.</div>
+    <div class="row" style="margin-bottom:8px"><textarea id="qNew" placeholder="Новые фразы, по одной в строке" style="min-height:44px;flex:1 1 200px"></textarea><button class="btn primary" id="qAdd">Добавить</button></div>
     <div id="qList"></div>
   </div>
 </section>
 
-<!-- ═════════ Площадки ═════════ -->
+<!-- ═════════ Настройки: площадки ═════════ -->
 <section id="s-platforms">
+  <div class="subnav"><button class="chip on" data-sub="platforms">Площадки</button><button class="chip" data-sub="settings">Расписание</button><button class="chip" data-sub="journal">Журнал</button></div>
   <div class="grid2">
     <div class="card pad">
-      <h2>Источники</h2>
-      <label class="sw"><input type="checkbox" data-set="sources.eis"> ЕИС zakupki.gov.ru — 44-ФЗ, 223-ФЗ, ПП 615, планы закупок</label>
-      <label class="sw"><input type="checkbox" data-set="sources.sber"> Сбербанк-АСТ — госзакупки и коммерческие (УТП, ТЭК, Транснефть…)</label>
-      <label class="sw"><input type="checkbox" data-set="sources.b2b"> B2B-Center — коммерческие и 223-ФЗ</label>
-      <label class="sw"><input type="checkbox" data-set="sources.rosatom"> Портал закупок Росатома (ЕОСЗ)</label>
-      <h3>Режимы поиска</h3>
-      <label class="sw"><input type="checkbox" data-set="modes.customers"> По моим заказчикам (ИНН и названия)</label>
-      <label class="sw"><input type="checkbox" data-set="modes.market"> По всему рынку (поисковые фразы)</label>
-      <label class="sw"><input type="checkbox" data-set="modes.plans"> Планы закупок (что заказчики собираются купить)</label>
-      <h3>Рынок</h3>
-      <div class="row"><span>НМЦ от</span><input type="number" data-set="market.min_price" style="width:140px"><span>₽</span></div>
-      <div class="row" style="margin-top:6px"><span>Опубликованы за последние</span><input type="number" data-set="market.days_back" style="width:80px"><span>дней</span></div>
-      <div class="row" style="margin-top:6px"><span>Страниц на фразу (по 50)</span><input type="number" data-set="market.max_pages" style="width:80px"></div>
+      <h2>Где искать</h2>
+      <label class="sw"><input type="checkbox" data-set="sources.eis"> ЕИС zakupki.gov.ru</label>
+      <label class="sw"><input type="checkbox" data-set="sources.sber"> Сбербанк-АСТ</label>
+      <label class="sw"><input type="checkbox" data-set="sources.b2b"> B2B-Center</label>
+      <label class="sw"><input type="checkbox" data-set="sources.rosatom"> Портал закупок Росатома</label>
+      <h3>Что искать</h3>
+      <label class="sw"><input type="checkbox" data-set="modes.customers"> Закупки моих заказчиков</label>
+      <label class="sw"><input type="checkbox" data-set="modes.market"> Закупки всего рынка по поисковым фразам</label>
+      <label class="sw"><input type="checkbox" data-set="modes.plans"> Планы закупок моих заказчиков</label>
+      <h3>Весь рынок</h3>
+      <div class="row"><span>НМЦ от</span><input type="number" data-set="market.min_price" style="width:130px"><span>₽</span></div>
+      <div class="row" style="margin-top:6px"><span>Опубликованы за последние</span><input type="number" data-set="market.days_back" style="width:70px"><span>дней</span></div>
+      <div class="row" style="margin-top:6px"><span>Страниц на фразу</span><input type="number" data-set="market.max_pages" style="width:70px"></div>
       <h3>Документация</h3>
-      <label class="sw"><input type="checkbox" data-set="docs.enabled"> Скачивать документацию и искать по вложениям</label>
-      <div class="row"><span>Закупок за один запуск, не более</span><input type="number" data-set="docs.max_tenders_per_run" style="width:80px"></div>
-      <div class="row" style="margin-top:6px"><span>Максимальный размер файла, МБ</span><input type="number" data-set="docs.max_file_mb" style="width:80px"></div>
-      <div class="note">RAR и 7Z читаются, если установлен 7-Zip. Сканы PDF без текстового слоя не читаются.</div>
+      <label class="sw"><input type="checkbox" data-set="docs.enabled"> Скачивать и искать по вложениям</label>
+      <div class="row"><span>Закупок за один поиск, не больше</span><input type="number" data-set="docs.max_tenders_per_run" style="width:70px"></div>
+      <div class="row" style="margin-top:6px"><span>Размер файла до, МБ</span><input type="number" data-set="docs.max_file_mb" style="width:70px"></div>
+      <div class="note">Сканы PDF без текстового слоя не читаются.<span class="win-only"> RAR и 7Z читаются, если установлен 7-Zip.</span></div>
     </div>
     <div class="card pad">
       <h2>Учётные записи площадок</h2>
-      <div class="note" style="margin-top:0">Логины и пароли хранятся только на этом компьютере и шифруются средствами Windows (DPAPI) — прочитать их может только ваша учётная запись Windows.</div>
+      <div class="note win-only" style="margin-top:0">Логины и пароли хранятся только на этом компьютере и зашифрованы средствами Windows.</div>
+      <div class="note android-only" style="margin-top:0">Логины и пароли хранятся только на этом телефоне, в закрытой памяти приложения.</div>
       <div id="creds"></div>
       <h3>Сеть</h3>
-      <div class="row"><span>Пауза между запросами, сек</span><input type="number" step="0.5" data-set="network.request_delay" style="width:80px"></div>
+      <div class="row"><span>Пауза между запросами, сек</span><input type="number" step="0.5" data-set="network.request_delay" style="width:70px"></div>
       <div class="row" style="margin-top:6px"><span>Прокси</span><input type="text" data-set="network.proxy" placeholder="http://user:pass@host:port" style="flex:1"></div>
     </div>
   </div>
 </section>
 
-<!-- ═════════ Расписание ═════════ -->
+<!-- ═════════ Настройки: расписание ═════════ -->
 <section id="s-settings">
+  <div class="subnav"><button class="chip" data-sub="platforms">Площадки</button><button class="chip on" data-sub="settings">Расписание</button><button class="chip" data-sub="journal">Журнал</button></div>
   <div class="grid2">
     <div class="card pad">
       <h2>Расписание</h2>
-      <label class="sw"><input type="checkbox" data-set="schedule.enabled"> <span id="schedLabel">Искать автоматически, пока приложение открыто</span></label>
-      <div class="row"><span>Каждые</span><input type="number" data-set="schedule.every_hours" style="width:70px"><span>ч, с</span><input type="number" data-set="schedule.from_hour" style="width:60px"><span>до</span><input type="number" data-set="schedule.to_hour" style="width:60px"><span>часов</span></div>
-      <div class="note" id="schedNote">Чтобы приложение запускалось вместе с Windows, выполните autostart_windows.bat в папке программы.</div>
+      <label class="sw"><input type="checkbox" data-set="schedule.enabled"> <span class="win-only">Искать автоматически, пока приложение открыто</span><span class="android-only">Искать автоматически в фоне</span></label>
+      <div class="row"><span>Каждые</span><input type="number" data-set="schedule.every_hours" style="width:64px"><span>ч, с</span><input type="number" data-set="schedule.from_hour" style="width:58px"><span>до</span><input type="number" data-set="schedule.to_hour" style="width:58px"><span>часов</span></div>
+      <div class="note win-only">Чтобы приложение запускалось вместе с Windows, выполните autostart_windows.bat в папке программы.</div>
+      <div class="note android-only">Android запускает поиск примерно с этой периодичностью и только при наличии интернета. О новых закупках приходит уведомление.</div>
     </div>
     <div class="card pad">
       <h2>Уведомления в Telegram</h2>
-      <label class="sw"><input type="checkbox" data-set="telegram.enabled"> Присылать новые закупки ИТ/ИБ/АСУТП</label>
-      <div class="row"><input type="text" data-set="telegram.bot_token" placeholder="Токен бота (@BotFather)" style="flex:1"></div>
-      <div class="row" style="margin-top:6px"><input type="text" data-set="telegram.chat_id" placeholder="chat_id (@userinfobot)" style="flex:1"></div>
+      <label class="sw"><input type="checkbox" data-set="telegram.enabled"> Присылать новые закупки</label>
+      <div class="row"><input type="text" data-set="telegram.bot_token" placeholder="Токен бота от @BotFather" style="flex:1"></div>
+      <div class="row" style="margin-top:6px"><input type="text" data-set="telegram.chat_id" placeholder="chat_id от @userinfobot" style="flex:1"></div>
     </div>
   </div>
 </section>
 
-<!-- ═════════ Журнал ═════════ -->
+<!-- ═════════ Настройки: журнал ═════════ -->
 <section id="s-journal">
-  <div class="card pad"><h2>Текущий запуск</h2><div class="log" id="liveLog">—</div></div>
-  <div class="card pad" style="margin-top:14px"><h2>История запусков</h2><div id="runs"></div></div>
+  <div class="subnav"><button class="chip" data-sub="platforms">Площадки</button><button class="chip" data-sub="settings">Расписание</button><button class="chip on" data-sub="journal">Журнал</button></div>
+  <div class="card pad"><div class="row" style="justify-content:space-between"><h2 id="logTitle">Текущий поиск</h2><button class="btn small" id="logCopy">Скопировать</button></div><div class="log" id="liveLog">—</div></div>
+  <div class="card pad" style="margin-top:14px"><h2>История поисков</h2><div id="runs"></div></div>
 </section>
 </main>
 
-<div class="drawer" id="drawer"><div class="dh"><div style="flex:1" id="dTitle"></div><button class="btn" id="dClose">Закрыть</button></div><div class="db" id="dBody"></div></div>
+<div class="drawer" id="drawer"><div class="dh"><div style="flex:1;min-width:0" id="dTitle"></div><button class="btn" id="dClose">Закрыть</button></div><div class="db" id="dBody"></div></div>
 <div class="modal-bg" id="custModal"><div class="modal">
   <h2>Добавить заказчика в наблюдение</h2>
-  <div class="row"><input type="text" id="mInn" placeholder="ИНН" style="flex:1"><button class="btn" id="mLookup">Найти название</button></div>
+  <div class="row"><input type="text" id="mInn" placeholder="ИНН" inputmode="numeric" style="flex:1"><button class="btn" id="mLookup">Найти название</button></div>
   <div class="row"><input type="text" id="mName" placeholder="Наименование" style="flex:1"></div>
-  <textarea id="mAliases" placeholder="Другие названия — по одному в строке (для Сбербанк-АСТ, B2B-Center, портала Росатома). Например: РИР Энерго"></textarea>
+  <textarea id="mAliases" placeholder="Другие названия, по одному в строке. Например: РИР Энерго"></textarea>
   <label class="sw small"><input type="checkbox" id="mRun" checked> сразу найти закупки этого заказчика</label>
   <div class="note" id="mNote"></div>
   <div class="row" style="justify-content:flex-end;margin-top:10px"><button class="btn" id="mCancel">Отмена</button><button class="btn primary" id="mSave">Добавить</button></div>
@@ -343,7 +416,10 @@ const api = async (path, body) => {
   const r = await fetch(path, body === undefined ? {} : {method:"POST", headers:{"Content-Type":"application/json","X-App":"tender"}, body:JSON.stringify(body)});
   const j = await r.json(); if (!r.ok) throw new Error(j.error || r.status); return j;
 };
-const toast = m => { const t = $("#toast"); t.textContent = m; t.classList.add("on"); setTimeout(() => t.classList.remove("on"), 2600); };
+let toastT = null;
+const toast = (m, ms = 2600) => { const t = $("#toast"); t.textContent = m; t.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("on"), ms); };
+const fmtWhen = t => { const m = /^(\d{4})-(\d\d)-(\d\d)[ T](\d\d:\d\d)/.exec(t || ""); return m ? `${m[3]}.${m[2]} в ${m[4]}` : t; };
+const law = v => (v || "").replace(/[\s·,]+$/, "");
 const fmtP = v => v == null ? "—" : Number(v).toLocaleString("ru-RU", {maximumFractionDigits:0});
 let DIRS = [], ROWS = [], CUST = [], sortK = "deadline_iso", sortD = 1, dirF = "", SETTINGS = {};
 const dirIdx = c => Math.max(0, DIRS.findIndex(d => d.code === c)) % 5;
@@ -351,30 +427,51 @@ const tagDir = (c, name) => `<span class="tag" style="color:var(--c${dirIdx(c)})
 const dname = c => (DIRS.find(d => d.code === c) || {name:c}).name;
 
 // ───────── навигация
-$$("#nav button").forEach(b => b.onclick = () => {
-  $$("#nav button").forEach(x => x.classList.toggle("on", x === b));
-  $$("main section").forEach(s => s.classList.toggle("on", s.id === "s-" + b.dataset.s));
-  ({customers:loadCustomers, criteria:loadCriteria, platforms:loadSettings, settings:loadSettings, journal:loadRuns})[b.dataset.s]?.();
-});
+const SUB = ["platforms", "settings", "journal"];
+let curSec = "tenders";
+function go(sec){
+  curSec = sec;
+  $$("#nav button").forEach(x => x.classList.toggle("on", x.dataset.s === sec || (x.dataset.s === "platforms" && SUB.includes(sec))));
+  $$("main section").forEach(s => s.classList.toggle("on", s.id === "s-" + sec));
+  ({customers:loadCustomers, criteria:loadCriteria, platforms:loadSettings, settings:loadSettings, journal:loadRuns})[sec]?.();
+  window.scrollTo(0, 0);
+}
+$$("#nav button").forEach(b => b.onclick = () => go(b.dataset.s));
+$$("[data-sub]").forEach(b => b.onclick = () => go(b.dataset.sub));
+// кнопка «Назад» на телефоне: закрыть открытое окно, затем вернуться к списку закупок
+window.appBack = () => {
+  if ($("#custModal").classList.contains("on")) { $("#custModal").classList.remove("on"); return true; }
+  if ($("#drawer").classList.contains("on")) { $("#drawer").classList.remove("on"); return true; }
+  if (!$("#moreMenu").hidden) { $("#moreMenu").hidden = true; return true; }
+  if (curSec !== "tenders") { go("tenders"); return true; }
+  if (!$("#fPanel").hidden) { $("#fPanel").hidden = true; return true; }
+  return false;
+};
 
 // ───────── запуск и прогресс
 $("#runBtn").onclick = async () => { const r = await api("/api/run", {}); toast(r.started ? "Поиск запущен" : "Поиск уже идёт"); poll(); };
-$("#stopBtn").onclick = async () => { await api("/api/stop", {}); toast("Останавливаю…"); };
-let wasRunning = false;
+$("#stopBtn").onclick = async () => { await api("/api/stop", {}); toast("Останавливаю поиск"); };
+let wasRunning = false, logPinned = false, pollTimer = null;
 async function poll(){
-  const s = await api("/api/state");
-  DIRS = s.directions;
-  if (s.platform === "android" && !window.__andr) { window.__andr = 1;
-    $("#schedLabel").textContent = "Искать автоматически в фоне (даже когда приложение закрыто)";
-    $("#schedNote").textContent = "Android запускает фоновый поиск примерно с заданной периодичностью и только при наличии интернета. Новые закупки ИТ/ИБ/АСУТП приходят уведомлениями."; }
-  const p = s.progress;
-  $("#runBtn").hidden = p.running; $("#stopBtn").hidden = !p.running;
-  $("#runinfo").textContent = p.running ? `${p.stage}${p.total ? ` · ${p.done}/${p.total}` : ""}` : (s.last_run ? "Последний поиск: " + s.last_run : "Поиск ещё не запускался");
-  $("#barFill").style.width = p.running ? (p.total ? Math.round(100 * p.done / p.total) : 15) + "%" : "0";
-  $("#liveLog").textContent = p.lines.length ? p.lines.join("\n") : "—";
-  if (wasRunning && !p.running) { loadTenders(); toast("Поиск завершён"); }
-  wasRunning = p.running;
-  setTimeout(poll, p.running ? 1500 : 8000);
+  clearTimeout(pollTimer);
+  let p = {running: false, lines: []};
+  try {
+    const s = await api("/api/state");
+    DIRS = s.directions; p = s.progress;
+    document.body.dataset.platform = s.platform || "";
+    $("#runBtn").hidden = p.running; $("#stopBtn").hidden = !p.running;
+    $("#runinfo").textContent = p.running ? `${p.stage}${p.total ? ` ${p.done}/${p.total}` : ""}` : (s.last_run ? "Обновлено " + fmtWhen(s.last_run) : "Поиск ещё не запускался");
+    $("#barFill").style.width = p.running ? (p.total ? Math.round(100 * p.done / p.total) : 15) + "%" : "0";
+    if (p.running) logPinned = false;
+    if (!logPinned) { $("#logTitle").textContent = p.running ? "Текущий поиск" : "Последний поиск"; $("#liveLog").textContent = p.lines.length ? p.lines.join("\n") : "—"; }
+    if (wasRunning && !p.running) {
+      loadTenders();
+      const bad = Object.keys((p.summary || {}).errors || {});
+      toast(bad.length ? `Поиск завершён. Ошибки: ${bad.join(", ")}. Подробности в «Настройки → Журнал»` : "Поиск завершён", bad.length ? 6000 : 2600);
+    }
+    wasRunning = p.running;
+  } catch (e) { /* сервер приложения ещё запускается */ }
+  pollTimer = setTimeout(poll, p.running ? 1500 : 8000);
 }
 
 // ───────── закупки
@@ -384,18 +481,17 @@ async function loadTenders(){
   ROWS = j.rows; CUST = j.customers;
   const cs = $("#fCust"), cur = cs.value;
   cs.innerHTML = `<option value="">Любой заказчик</option>` + CUST.map(c => `<option value="${c.id}">${esc(c.name || c.inn)}</option>`).join("") +
-    `<option value="__add">＋ Добавить заказчика…</option>`;
+    `<option value="__add">＋ Добавить заказчика</option>`;
   cs.value = cur === "__add" ? "" : cur;
   const ss = $("#fSrc"), curS = ss.value, srcs = [...new Set(ROWS.map(r => r.source))].sort();
   ss.innerHTML = `<option value="">Все площадки</option>` + srcs.map(s => `<option>${esc(s)}</option>`).join(""); ss.value = curS;
-  renderDirChips(); render();
+  render();
 }
 function renderDirChips(){
-  $("#dirChips").innerHTML = `<button class="chip ${dirF === "" ? "on" : ""}" data-d="">Все направления</button>` +
-    DIRS.filter(d => d.enabled).map(d => `<button class="chip ${dirF === d.code ? "on" : ""}" data-d="${d.code}" title="${esc(d.description || "")}">${esc(d.name)}</button>`).join("") +
-    `<button class="btn small" id="ovBtn" title="Какие разделы, вендоры и слова входят в каждое направление">Что входит в направления?</button>`;
-  $("#ovBtn").onclick = openOverview;
-  $$("#dirChips .chip").forEach(b => b.onclick = () => { dirF = b.dataset.d; renderDirChips(); render(); });
+  const rel = ROWS.filter(r => r.kind === "notice" && Object.keys(r.directions).length && r.user_status !== "hidden");
+  $("#dirChips").innerHTML = `<button class="chip ${dirF === "" ? "on" : ""}" data-d="">Все<b>${rel.length}</b></button>` +
+    DIRS.filter(d => d.enabled).map(d => `<button class="chip ${dirF === d.code ? "on" : ""}" data-d="${d.code}" title="${esc(d.description || "")}">${esc(d.name)}<b>${rel.filter(r => d.code in r.directions).length}</b></button>`).join("");
+  $$("#dirChips .chip").forEach(b => b.onclick = () => { dirF = b.dataset.d; render(); });
 }
 function filtered(){
   const q = $("#fQ").value.trim().toLowerCase(), kind = $("#fKind").value, mode = $("#fMode").value, cust = $("#fCust").value,
@@ -420,55 +516,60 @@ function filtered(){
   });
 }
 function render(){
-  updScope();
+  updScope(); renderDirChips();
   let list = filtered();
-  list.sort((a, b) => { let x = a[sortK], y = b[sortK]; if (sortK === "dirs") { x = Object.keys(a.directions).join(); y = Object.keys(b.directions).join(); }
+  list.sort((a, b) => { const x = a[sortK], y = b[sortK];
     if (x == null) return 1; if (y == null) return -1; return (x > y ? 1 : x < y ? -1 : 0) * sortD; });
+  const fc = [$("#fKind").value !== "notice", $("#fStatus").value !== "active", $("#fCust").value, $("#fMode").value, $("#fSrc").value,
+              $("#fDays").value, $("#fPrice").value, $("#fIrr").checked].filter(Boolean).length;
+  $("#fCount").hidden = !fc; $("#fCount").textContent = fc;
+  const kindF = $("#fKind").value;
   const rel = ROWS.filter(r => Object.keys(r.directions).length && r.user_status !== "hidden");
-  const kp = [[rel.filter(r => r.kind === "notice").length, "активных закупок ИТ/ИБ/АСУТП"], [rel.filter(r => r.user_status === "new").length, "новых"],
-    [rel.filter(r => r.user_status === "favorite").length, "в работе"], [rel.filter(r => r.kind === "plan").length, "позиций в планах"]];
-  DIRS.filter(d => d.enabled).forEach(d => kp.push([rel.filter(r => r.kind === "notice" && d.code in r.directions).length, d.name]));
-  $("#kpis").innerHTML = kp.map(([n, l]) => `<div class="kpi"><b>${n}</b><span>${esc(l)}</span></div>`).join("");
+  const scope = rel.filter(r => !kindF || r.kind === kindF), nPlan = rel.filter(r => r.kind === "plan").length;
+  $("#summary").textContent = `Показано ${list.length}. Новых ${scope.filter(r => r.user_status === "new").length}, в работе ${scope.filter(r => r.user_status === "favorite").length}` + (kindF === "notice" && nPlan ? `. В планах: ${nPlan}` : "");
   const today = new Date(); today.setHours(0,0,0,0);
   $("#empty").hidden = list.length > 0;
   $("#tb").innerHTML = list.slice(0, 1500).map(r => {
     const dirs = Object.keys(r.directions);
     const tags = dirs.map(c => tagDir(c, dname(c))).join("") + (r.user_status === "new" ? `<span class="tag t-new">новая</span>` : "") +
-      (r.user_status === "favorite" ? `<span class="tag t-fav">в работе</span>` : "") + (r.kind === "plan" ? `<span class="tag t-plan">план</span>` : "") +
-      (r.confidence ? `<div class="meta">${esc(r.confidence)}</div>` : "");
-    const hits = Object.entries(r.directions).map(([k, v]) => `<div><i>${esc(dname(k))}:</i> ${fmtHits(v.slice(0, 6))}</div>`).join("");
-    const pos = r.positions.length ? `<div class="meta">${r.positions.slice(0, 3).map(p => esc(p.slice(0, 160))).join("<br>")}${r.positions.length > 3 ? ` … ещё ${r.positions.length - 3}` : ""}</div>` : "";
-    let dl = esc(r.deadline || "—");
-    if (r.kind === "notice" && r.deadline_iso && r.deadline_iso < "2100") { const d = Math.round((new Date(r.deadline_iso) - today) / 864e5); dl += `<div class="meta ${d <= 3 ? "hot" : ""}">${d <= 0 ? "сегодня" : "осталось " + d + " дн."}</div>`; }
-    const docs = r.docs_state === "done" ? "📎" : r.docs_state === "error" ? "⚠" : "";
+      (r.user_status === "favorite" ? `<span class="tag t-fav">в работе</span>` : "") + (r.kind === "plan" ? `<span class="tag t-plan">план</span>` : "");
+    const hits = Object.entries(r.directions).map(([k, v]) => `<i>${esc(dname(k))}:</i> ${fmtHits(v.slice(0, 4))}`).join(". ");
+    let dl = esc((r.deadline || "—").replace(/(\d\d:\d\d):\d\d/, "$1"));
+    if (r.kind === "notice" && r.deadline_iso && r.deadline_iso < "2100") { const d = Math.round((new Date(r.deadline_iso) - today) / 864e5); dl += `<div class="meta ${d <= 3 ? "hot" : ""}">${d <= 0 ? "сегодня" : d + " дн."}</div>`; }
     return `<tr class="${r.user_status === "hidden" ? "hid" : ""} ${dirs.length ? "" : "irr"}" data-key="${esc(r.key)}">
-      <td>${tags || '<span class="meta">—</span>'}</td>
-      <td><div class="title"><a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.title)}</a></div>
-        <div class="meta">${esc(r.source)}${r.extra.also ? " + " + esc(r.extra.also.join(", ")) : ""} № ${esc(r.number)} · ${esc(r.law)}${r.published ? " · размещено " + esc(r.published) : ""}${r.mode === "market" ? " · рынок" + (r.query && r.query !== "*" ? ": «" + esc(r.query) + "»" : "") : ""}</div>
-        ${pos}${hits ? `<div class="hits">${hits}</div>` : ""}${r.extra.note ? `<div class="meta" style="color:var(--new)">${esc(r.extra.note)}</div>` : ""}${r.user_note ? `<div class="meta">📝 ${esc(r.user_note)}</div>` : ""}</td>
-      <td>${esc(r.customer || "—")}${r.customer_inn ? `<div class="meta">ИНН ${esc(r.customer_inn)}</div>` : ""}${r.region ? `<div class="meta">${esc(r.region)}</div>` : ""}</td>
-      <td class="num">${fmtP(r.price)}</td><td>${dl}</td>
-      <td class="acts">${r.customer_inn && !CUST.some(c => c.inn === r.customer_inn) ? `<button class="icon" title="Добавить заказчика в наблюдение" data-a="watch">👤＋</button>` : ""}<button class="icon" title="Подробнее и документация" data-a="open">${docs || "ⓘ"}</button><button class="icon ${r.user_status === "favorite" ? "on" : ""}" title="В работу" data-a="favorite">★</button><button class="icon ${r.user_status === "viewed" ? "on" : ""}" title="${r.user_status === "viewed" ? "Снять отметку «просмотрено» — вернуть в новые" : "Отметить просмотренной"}" data-a="viewed">✓</button><button class="icon" title="Скрыть" data-a="hidden">✕</button></td></tr>`;
+      <td class="c-main"><div class="tags">${tags}</div><div class="title">${esc(r.title)}</div>
+        <div class="meta">${esc(r.source)}${r.extra.also ? " + " + esc(r.extra.also.join(", ")) : ""} № ${esc(r.number)}${law(r.law) ? `<span class="wide-only">, ${esc(law(r.law))}</span>` : ""}</div>
+        ${hits ? `<div class="hits">${hits}</div>` : ""}${r.user_note ? `<div class="meta">Заметка: ${esc(r.user_note)}</div>` : ""}</td>
+      <td class="c-cust">${esc(r.customer || "—")}</td>
+      <td class="num c-price">${r.price == null ? '<span class="wide-only">—</span><span class="narrow-only muted">НМЦ не указана</span>' : fmtP(r.price) + " ₽"}</td><td class="c-dl">${dl}</td>
+      <td class="acts"><a class="icon wide-only" href="${esc(r.url)}" target="_blank" rel="noopener" title="Открыть на площадке">↗</a><button class="icon ${r.user_status === "favorite" ? "on" : ""}" title="В работу" data-a="favorite">★</button><button class="icon ${r.user_status === "viewed" ? "on" : ""}" title="${r.user_status === "viewed" ? "Вернуть в новые" : "Отметить просмотренной"}" data-a="viewed">✓</button><button class="icon" title="Скрыть" data-a="hidden">✕</button></td></tr>`;
   }).join("");
 }
 $("#tb").onclick = async e => {
-  const b = e.target.closest("button[data-a]"); if (!b) return;
-  const key = b.closest("tr").dataset.key, r = ROWS.find(x => x.key === key), a = b.dataset.a;
-  if (a === "open") return openTender(key);
-  if (a === "watch") return openCustModal({inn: r.customer_inn, name: r.customer});
-  const st = r.user_status === a ? (a === "viewed" ? "new" : "viewed") : a;
+  const tr = e.target.closest("tr"); if (!tr || e.target.closest("a")) return;
+  const key = tr.dataset.key, r = ROWS.find(x => x.key === key), b = e.target.closest("button[data-a]");
+  if (!b) return openTender(key);
+  const a = b.dataset.a, st = r.user_status === a ? (a === "viewed" ? "new" : "viewed") : a;
   await api("/api/tender/status", {key, user_status: st}); r.user_status = st; render();
 };
 $$("th[data-k]").forEach(th => th.onclick = () => { const k = th.dataset.k; sortD = sortK === k ? -sortD : 1; sortK = k; render(); });
 ["#fKind","#fMode","#fSrc","#fStatus","#fDays"].forEach(s => $(s).onchange = render);
 $("#fCust").onchange = () => { if ($("#fCust").value === "__add") { $("#fCust").value = ""; openCustModal(); } render(); };
 $("#fPrice").oninput = render; $("#fQ").oninput = render; $("#fIrr").onchange = loadTenders;
+$("#fToggle").onclick = () => { $("#fPanel").hidden = !$("#fPanel").hidden; };
+$("#fReset").onclick = () => {
+  $("#fKind").value = "notice"; $("#fStatus").value = "active"; ["#fCust","#fMode","#fSrc","#fDays","#fPrice"].forEach(s => $(s).value = "");
+  const irr = $("#fIrr").checked; $("#fIrr").checked = false; dirF = ""; irr ? loadTenders() : render();
+};
+$("#ovBtn").onclick = openOverview;
+$("#moreBtn").onclick = e => { e.stopPropagation(); $("#moreMenu").hidden = !$("#moreMenu").hidden; };
+document.addEventListener("click", () => { $("#moreMenu").hidden = true; });
 let lastMarked = [], undoTimer = null;
 $("#markAll").onclick = async () => {
   const rows = filtered().filter(r => r.user_status === "new"); if (!rows.length) return toast("Новых закупок под фильтром нет");
   lastMarked = rows.map(r => r.key);
   await api("/api/tender/set_status", {keys: lastMarked, user_status: "viewed"}); rows.forEach(r => r.user_status = "viewed"); render();
-  $("#undoMark").hidden = false; $("#undoMark").textContent = `↶ Отменить отметку (${lastMarked.length})`;
+  $("#undoMark").hidden = false; $("#undoMark").textContent = `Отменить отметку (${lastMarked.length})`;
   clearTimeout(undoTimer); undoTimer = setTimeout(() => $("#undoMark").hidden = true, 60000);
   toast(`Отмечено просмотренными: ${rows.length}`);
 };
@@ -501,7 +602,7 @@ function scopeFromFilters(){
   if (Object.keys(modes).length) only.modes = modes;
   if (src && SRC_KEY(src)) { only.sources = {[SRC_KEY(src)]: true}; parts.push("площадка: " + src); }
   if (dirF) { only.directions = [dirF]; parts.push("направление: " + dname(dirF)); }
-  return {only, text: parts.length ? "Будет искать: " + parts.join(" · ") : "Фильтры не выбраны — поиск будет полным"};
+  return {only, text: parts.length ? "Будет искать: " + parts.join("; ") : "Фильтры не выбраны, поиск будет полным"};
 }
 const updScope = () => { $("#scopeText").textContent = scopeFromFilters().text; };
 $("#runFiltered").onclick = async () => {
@@ -512,24 +613,36 @@ $("#exportBtn").onclick = () => { const keys = filtered().map(r => r.key); locat
 
 async function openTender(key){
   const j = await api("/api/tender?key=" + encodeURIComponent(key)), t = j.tender, r = ROWS.find(x => x.key === key) || {};
-  $("#dTitle").innerHTML = `<div class="title">${esc(t.title)}</div><div class="meta">${esc(t.source)} № ${esc(t.number)} · <a href="${esc(t.url)}" target="_blank" rel="noopener">открыть на площадке</a></div>`;
+  $("#dTitle").innerHTML = `<div class="title">${esc(t.title)}</div><div class="meta">${esc(t.source)} № ${esc(t.number)}</div>`;
   const pos = JSON.parse(t.positions || "[]"), dirs = JSON.parse(t.directions || "{}");
+  const watched = !t.customer_inn || CUST.some(c => c.inn === t.customer_inn);
+  const docState = {none: "ещё не проверялась", error: "не удалось проверить"}[t.docs_state];
   $("#dBody").innerHTML = `
-    <div class="meta">Заказчик: ${esc(t.customer || "—")} ${t.customer_inn ? "· ИНН " + esc(t.customer_inn) : ""}</div>
-    <div class="meta">НМЦ: ${fmtP(t.price)} ₽ · подача до ${esc(t.deadline || "—")} · ${esc(t.platform || "")}</div>
+    <a class="btn primary" href="${esc(t.url)}" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none">Открыть на площадке</a>
+    <dl class="kv">
+      <dt>Заказчик</dt><dd>${esc(t.customer || "—")}${t.customer_inn ? `<div class="meta">ИНН ${esc(t.customer_inn)}</div>` : ""}${watched ? "" : `<button class="btn small" id="dWatch" style="margin-top:6px">Наблюдать за заказчиком</button>`}</dd>
+      <dt>НМЦ</dt><dd>${t.price == null ? "—" : fmtP(t.price) + " ₽"}</dd>
+      <dt>Подача до</dt><dd>${esc(t.deadline || "—")}</dd>
+      ${t.published ? `<dt>Размещено</dt><dd>${esc(t.published)}</dd>` : ""}
+      ${law(t.law) ? `<dt>Процедура</dt><dd>${esc(law(t.law))}</dd>` : ""}
+      ${r.mode === "market" ? `<dt>Найдено</dt><dd>по всему рынку${r.query && r.query !== "*" ? ", фраза «" + esc(r.query) + "»" : ""}</dd>` : ""}
+      ${r.extra && r.extra.note ? `<dt>Примечание</dt><dd>${esc(r.extra.note)}</dd>` : ""}
+    </dl>
     ${Object.entries(dirs).map(([k, v]) => `<div class="hits">${tagDir(k, dname(k))} ${fmtHits(v)}</div>`).join("")}
     ${pos.length ? `<h3>Позиции</h3><div class="small">${pos.map(esc).join("<br>")}</div>` : ""}
     <h3>Заметка</h3><div class="row"><input type="text" id="noteIn" value="${esc(t.user_note)}" style="flex:1"><button class="btn" id="noteSave">Сохранить</button></div>
-    <h3>Документация ${t.docs_state === "done" ? "" : "(" + ({none:"ещё не проверялась", error:"ошибка"}[t.docs_state] || t.docs_state) + ")"}</h3>
+    <h3>Документация${docState ? ": " + docState : ""}</h3>
     ${t.docs_note ? `<div class="note">${esc(t.docs_note)}</div>` : ""}
-    <div class="row" style="margin:6px 0 10px"><input type="search" id="docQ" placeholder="Найти в документах этой закупки"></div>
-    ${j.docs.map(d => `<div class="doc"><div class="row"><b style="flex:1">${esc(d.name || "файл")}</b><span class="small muted">${d.size ? Math.round(d.size / 1024) + " КБ" : ""}</span>
-      ${d.chars ? `<button class="btn small" data-doc="${d.id}">Текст</button>` : ""}<a class="btn small" href="${esc(d.url)}" target="_blank" rel="noopener">Скачать</a></div>
+    ${j.docs.length ? `<div class="row" style="margin:6px 0 10px"><input type="search" id="docQ" placeholder="Найти в документах этой закупки" style="flex:1"></div>` : ""}
+    ${j.docs.map(d => `<div class="doc"><div class="row"><b style="flex:1 1 160px;overflow-wrap:anywhere">${esc(d.name || "файл")}</b><span class="small muted">${d.size ? Math.round(d.size / 1024) + " КБ" : ""}</span>
+      ${d.chars ? `<button class="btn small" data-doc="${d.id}">Текст</button>` : ""}<a class="btn small" href="${esc(d.url)}" target="_blank" rel="noopener" style="text-decoration:none">Скачать</a></div>
       ${d.note ? `<div class="note">${esc(d.note)}</div>` : ""}<div data-docbox="${d.id}"></div></div>`).join("") || '<div class="muted small">Файлов нет</div>'}`;
-  $("#drawer").classList.add("on");
+  $("#drawer").classList.add("on"); $("#dBody").scrollTop = 0;
   $("#noteSave").onclick = async () => { await api("/api/tender/status", {key, user_note: $("#noteIn").value}); if (r) r.user_note = $("#noteIn").value; render(); toast("Сохранено"); };
-  $$("[data-doc]").forEach(b => b.onclick = () => showDoc(b.dataset.doc, $("#docQ").value));
-  $("#docQ").onkeydown = e => { if (e.key === "Enter") $$("[data-doc]").forEach(b => showDoc(b.dataset.doc, $("#docQ").value)); };
+  if ($("#dWatch")) $("#dWatch").onclick = () => { $("#drawer").classList.remove("on"); openCustModal({inn: t.customer_inn, name: t.customer}); };
+  const dq = () => $("#docQ") ? $("#docQ").value : "";
+  $$("[data-doc]").forEach(b => b.onclick = () => showDoc(b.dataset.doc, dq()));
+  if ($("#docQ")) $("#docQ").onkeydown = e => { if (e.key === "Enter") $$("[data-doc]").forEach(b => showDoc(b.dataset.doc, dq())); };
   if (r && r.user_status === "new") { await api("/api/tender/status", {key, user_status:"viewed"}); r.user_status = "viewed"; render(); }
 }
 async function showDoc(id, q){
@@ -550,14 +663,14 @@ function fmtHits(v){
 // ───────── состав направлений (справка)
 async function openOverview(){
   const j = await api("/api/overview");
-  $("#dTitle").innerHTML = `<div class="title">Что входит в направления</div><div class="meta">Закупка попадает в направление, если в названии, позициях или документации найден признак из любого включённого раздела.</div>`;
+  $("#dTitle").innerHTML = `<div class="title">Что входит в направления</div><div class="meta">Закупка попадает в направление, если в её названии, позициях или документации найден признак из включённого раздела.</div>`;
   $("#dBody").innerHTML = j.directions.map(d => `<div class="ov-dir"><div class="row" style="justify-content:space-between">${tagDir(d.code, d.name)}<button class="btn small" data-edit="${d.code}">Изменить состав</button></div>
     <div class="small" style="margin:4px 0 6px">${esc(d.description || "")}${d.enabled ? "" : " <b>(выключено)</b>"}</div>
     ${d.sections.map(x => `<div class="ov-sec" style="${x.enabled ? "" : "opacity:.5"}"><b>${esc(x.name)}</b> <span class="small muted">${[x.counts.vendor && x.counts.vendor + " вендоров/продуктов", x.counts.keyword && x.counts.keyword + " слов", x.counts.okpd && "ОКПД2: " + x.counts.okpd].filter(Boolean).join(" · ")}${x.enabled ? "" : " · выключен"}</span>
       <div class="small muted">${esc(x.description || "")}</div><div>${x.samples.map(t => `<span class="ov-sm">${esc(t)}</span>`).join("")}</div></div>`).join("")}
     ${d.excludes ? `<div class="small muted" style="margin-top:4px">Исключений: ${d.excludes}</div>` : ""}</div>`).join("");
   $("#drawer").classList.add("on");
-  $$("[data-edit]").forEach(b => b.onclick = () => { critDir = b.dataset.edit; $("#drawer").classList.remove("on"); $$("#nav button").find(x => x.dataset.s === "criteria").click(); });
+  $$("[data-edit]").forEach(b => b.onclick = () => { critDir = b.dataset.edit; $("#drawer").classList.remove("on"); go("criteria"); });
 }
 
 // ───────── быстрое добавление заказчика
@@ -606,9 +719,9 @@ async function loadCustomers(){
   const j = await api("/api/customers");
   $("#custList").innerHTML = j.rows.map(c => `<div class="li"><input type="checkbox" ${c.enabled ? "checked" : ""} data-en="${c.id}" title="Искать">
     <div class="grow"><b>${esc(c.name || "—")}</b><div class="meta">ИНН ${esc(c.inn || "—")}${c.aliases ? " · " + esc(c.aliases.split("\n").filter(Boolean).join("; ")) : ""}</div></div>
-    <button class="btn small" data-run="${c.id}">Искать</button><button class="btn small" data-ed="${c.id}">Изменить</button><button class="btn small danger" data-del="${c.id}">Удалить</button></div>`).join("") || '<div class="empty">Добавьте заказчика слева</div>';
+    <button class="btn small" data-run="${c.id}">Искать</button><button class="btn small" data-ed="${c.id}">Изменить</button><button class="btn small danger" data-del="${c.id}">Удалить</button></div>`).join("") || '<div class="empty">Заказчиков пока нет. Добавьте первого в форме «Добавить заказчика».</div>';
   $$("[data-en]").forEach(x => x.onchange = async () => { const c = j.rows.find(r => r.id == x.dataset.en); await api("/api/customers", {...c, enabled: x.checked ? 1 : 0}); });
-  $$("[data-ed]").forEach(x => x.onclick = () => { const c = j.rows.find(r => r.id == x.dataset.ed); $("#cId").value = c.id; $("#cName").value = c.name; $("#cInn").value = c.inn; $("#cAliases").value = c.aliases; $("#custFormTitle").textContent = "Изменить заказчика"; });
+  $$("[data-ed]").forEach(x => x.onclick = () => { const c = j.rows.find(r => r.id == x.dataset.ed); $("#cId").value = c.id; $("#cName").value = c.name; $("#cInn").value = c.inn; $("#cAliases").value = c.aliases; $("#custFormTitle").textContent = "Изменить заказчика"; $("#custFormTitle").scrollIntoView({block:"start"}); });
   $$("[data-del]").forEach(x => x.onclick = async () => { if (confirm("Удалить заказчика из наблюдения? Найденные закупки останутся.")) { await api("/api/customers/delete", {id: +x.dataset.del}); loadCustomers(); } });
   $$("[data-run]").forEach(x => x.onclick = async () => { const r = await api("/api/run", {customer_id: +x.dataset.run}); toast(r.started ? "Ищу закупки этого заказчика" : "Поиск уже идёт"); });
 }
@@ -727,18 +840,23 @@ $$("[data-set]").forEach(el => el.onchange = async () => {
   await api("/api/settings", {[a]: {[b]: v}}); toast("Сохранено");
 });
 const PLAT = [
-  {id:"b2b", name:"B2B-Center", note:"С входом видно больше результатов поиска и документация процедур."},
-  {id:"sber", name:"Сбербанк-АСТ", note:"Поиск и документация работают без входа. Логин сохраните на будущее (участие, личные уведомления)."},
-  {id:"brif", name:"БРИФ Росатома", note:"Закупки БРИФ видны только в личном кабинете аккредитованного поставщика. Подключение делается отдельным шагом — вход в кабинет Росатома устроен иначе, чем у других площадок."},
+  {id:"b2b", name:"B2B-Center", note:"Без входа площадка показывает только первые 20 результатов и не отдаёт документацию."},
+  {id:"sber", name:"Сбербанк-АСТ", note:"Поиск и документация работают без входа."},
+  {id:"brif", name:"БРИФ Росатома", note:"Закупки БРИФ видны только в личном кабинете аккредитованного поставщика. Поиск по нему пока не подключён."},
 ];
 async function loadCreds(){
   const c = await api("/api/credentials");
-  $("#creds").innerHTML = PLAT.map(p => `<h3>${p.name}</h3><div class="row"><input type="text" id="lg-${p.id}" placeholder="Логин" value="${esc(c[p.id]?.login || "")}" style="flex:1">
-    <input type="password" id="pw-${p.id}" placeholder="${c[p.id]?.has_password ? "пароль сохранён" : "Пароль"}" style="flex:1" autocomplete="new-password"></div>
-    <div class="row" style="margin-top:6px"><button class="btn small" data-cs="${p.id}">Сохранить</button>${p.id === "b2b" ? `<button class="btn small" data-ct="${p.id}">Проверить вход</button>` : ""}<button class="btn small danger" data-cc="${p.id}">Удалить</button><span class="small muted" id="cr-${p.id}"></span></div><div class="note">${p.note}</div>`).join("");
+  $("#creds").innerHTML = PLAT.map(p => `<h3>${p.name}</h3><div class="row"><input type="text" id="lg-${p.id}" placeholder="Логин" value="${esc(c[p.id]?.login || "")}" style="flex:1 1 130px" autocapitalize="off">
+    <input type="password" id="pw-${p.id}" placeholder="${c[p.id]?.has_password ? "Пароль сохранён" : "Пароль"}" style="flex:1 1 130px" autocomplete="new-password"></div>
+    <div class="row" style="margin-top:6px"><button class="btn small" data-cs="${p.id}">Сохранить</button>${p.id === "b2b" ? `<button class="btn small" data-ct="${p.id}">Проверить площадку</button>` : ""}<button class="btn small danger" data-cc="${p.id}">Удалить</button></div>
+    <div class="note" id="cr-${p.id}" hidden></div><div class="note">${p.note}</div>`).join("");
   $$("[data-cs]").forEach(b => b.onclick = async () => { const id = b.dataset.cs; await api("/api/credentials", {platform:id, login: $("#lg-" + id).value, password: $("#pw-" + id).value}); $("#pw-" + id).value = ""; toast("Сохранено"); loadCreds(); });
   $$("[data-cc]").forEach(b => b.onclick = async () => { await api("/api/credentials", {platform:b.dataset.cc, clear:true}); loadCreds(); });
-  $$("[data-ct]").forEach(b => b.onclick = async () => { $("#cr-" + b.dataset.ct).textContent = "проверяю…"; const r = await api("/api/credentials/test", {platform:b.dataset.ct}); $("#cr-" + b.dataset.ct).textContent = r.result; });
+  $$("[data-ct]").forEach(b => b.onclick = async () => {
+    const out = $("#cr-" + b.dataset.ct); out.hidden = false; out.style.color = "var(--ink)"; out.textContent = "Проверяю вход и пробный поиск, это займёт до минуты";
+    try { const r = await api("/api/credentials/test", {platform:b.dataset.ct}); out.textContent = "Результат проверки: " + r.result; }
+    catch (e) { out.textContent = "Проверка не удалась: " + e.message; }
+  });
 }
 
 // ───────── журнал
@@ -746,11 +864,18 @@ async function loadRuns(){
   const j = await api("/api/runs");
   $("#runs").innerHTML = j.rows.map(r => { const s = JSON.parse(r.summary || "{}");
     const errs = Object.entries(s.errors || {}).map(([k, v]) => `<div class="small" style="color:var(--warn)">${esc(k)}: ${esc(v[0])}</div>`).join("");
-    return `<div class="li" style="align-items:flex-start"><div class="grow"><b>${esc(r.started)}</b> → ${esc(r.finished || "…")} · ${r.status === "ok" ? "успешно" : esc(r.status)}
-      <div class="meta">найдено ${s.found ?? "—"}, активных ${s.active ?? "—"}, сохранено ${s.saved ?? "—"}, новых ${s.new ?? "—"} (релевантных ${s.new_relevant ?? "—"}), документация ${s.docs_scanned ?? "—"}, планы ${s.plans ?? "—"}</div>${errs}</div>
-      <button class="btn small" data-log="${r.id}">Лог</button></div>`; }).join("") || '<div class="muted">Запусков ещё не было</div>';
-  $$("[data-log]").forEach(b => b.onclick = async () => { const l = await api("/api/run_log?id=" + b.dataset.log); $("#liveLog").textContent = l.log || "—"; window.scrollTo(0, 0); });
+    const by = Object.entries(s.by_source || {}).map(([k, v]) => `${esc(k)} ${v}`).join(", ");
+    return `<div class="li" style="align-items:flex-start"><div class="grow"><b>${esc(r.started)}</b>${r.status === "ok" ? "" : ", " + esc(r.status)}
+      <div class="meta">Найдено ${s.found ?? "—"}, активных ${s.active ?? "—"}, новых по направлениям ${s.new_relevant ?? "—"}${by ? ". По площадкам: " + by : ""}</div>${errs}</div>
+      <button class="btn small" data-log="${r.id}" data-when="${esc(r.started)}">Журнал</button></div>`; }).join("") || '<div class="muted">Поиск ещё не запускался</div>';
+  $$("[data-log]").forEach(b => b.onclick = async () => { const l = await api("/api/run_log?id=" + b.dataset.log); logPinned = true; $("#logTitle").textContent = "Поиск от " + b.dataset.when; $("#liveLog").textContent = l.log || "—"; window.scrollTo(0, 0); });
 }
+$("#logCopy").onclick = async () => {
+  const text = $("#liveLog").textContent;
+  try { await navigator.clipboard.writeText(text); }
+  catch (e) { const ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove(); }
+  toast("Журнал скопирован");
+};
 
 poll(); loadTenders();
 </script>

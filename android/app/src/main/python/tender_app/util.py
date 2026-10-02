@@ -350,6 +350,85 @@ class Http:
         self._lock = threading.Lock()
         self._tb_logged = False
         self.cancel = threading.Event()
+        self._bundle = Path(ca_dir) / ".ca_bundle.pem" if ca_dir else None
+        self._aia_tried: set[str] = set()
+        self._plain_tried: set[str] = set()
+        self._host_verify: dict[str, object] = {}
+
+    # ── сайт отдал неполную цепочку сертификатов ──
+    def _complete_chain(self, host: str, port: int = 443) -> bool:
+        """Браузеры сами докачивают промежуточные сертификаты по ссылке из сертификата сайта,
+        Python — нет. Докачиваем их и добавляем в свой файл сертификатов, но только если с ними
+        цепочка честно сходится к уже доверенному корневому сертификату."""
+        import socket
+        import ssl
+        import tempfile
+        if not self._bundle or self.verify is False or self.s.proxies:
+            return False
+        decode = getattr(getattr(ssl, "_ssl", None), "_test_decode_cert", None)
+        if decode is None:
+            return False
+
+        def info(pem: str) -> dict:
+            with tempfile.NamedTemporaryFile("w", suffix=".pem", delete=False, encoding="ascii") as f:
+                f.write(pem)
+            try:
+                return decode(f.name)
+            finally:
+                Path(f.name).unlink(missing_ok=True)
+
+        try:
+            ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+            ctx.check_hostname = False
+            ctx.verify_mode = ssl.CERT_NONE
+            with socket.create_connection((host, port), timeout=15) as sock:
+                with ctx.wrap_socket(sock, server_hostname=host) as tls:
+                    pem = ssl.DER_cert_to_PEM_cert(tls.getpeercert(True))
+            extra: list[str] = []
+            for _ in range(4):                                  # сайт → промежуточные → корень
+                d = info(pem)
+                urls = [u for u in d.get("caIssuers", ()) if u.lower().startswith("http://")]
+                if not urls or d.get("subject") == d.get("issuer"):
+                    break
+                raw = requests.get(urls[0], timeout=15, headers={"User-Agent": UA}).content
+                if raw[:1] == b"\x30":
+                    pem = ssl.DER_cert_to_PEM_cert(raw)
+                elif b"BEGIN CERTIFICATE" in raw:
+                    pem = re.search(r"-----BEGIN CERTIFICATE-----.+?-----END CERTIFICATE-----",
+                                    raw.decode("ascii", "ignore"), re.S).group(0)
+                else:
+                    break
+                d2 = info(pem)
+                if d2.get("subject") == d2.get("issuer"):       # корневые сертификаты из сети не берём
+                    break
+                extra.append(pem.strip())
+            if not extra:
+                return False
+            if isinstance(self.verify, str) and Path(self.verify).exists():
+                base = Path(self.verify).read_text(encoding="ascii", errors="ignore")
+            else:
+                import certifi
+                base = Path(certifi.where()).read_text(encoding="ascii", errors="ignore")
+            merged = base.rstrip() + "\n" + "\n".join(extra) + "\n"
+            with tempfile.NamedTemporaryFile("w", suffix=".pem", delete=False, encoding="ascii") as f:
+                f.write(merged)
+            try:
+                # строгая проверка: цепочка обязана дойти до корневого сертификата, которому мы уже доверяем
+                strict = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+                strict.verify_flags &= ~getattr(ssl, "VERIFY_X509_PARTIAL_CHAIN", 0)
+                strict.load_verify_locations(f.name)
+                with socket.create_connection((host, port), timeout=15) as sock:
+                    with strict.wrap_socket(sock, server_hostname=host):
+                        pass
+            finally:
+                Path(f.name).unlink(missing_ok=True)
+            self._bundle.write_text(merged, encoding="ascii")
+            self.verify = str(self._bundle)
+            log.info("%s: сайт отдаёт неполную цепочку сертификатов — докачано промежуточных: %s", host, len(extra))
+            return True
+        except Exception as e:  # noqa: BLE001
+            log.debug("%s: цепочку сертификатов достроить не удалось: %r", host, e)
+            return False
 
     def _wait(self, url: str) -> None:
         host = re.sub(r"^https?://([^/]+).*$", r"\1", url)
@@ -366,8 +445,9 @@ class Http:
             if self.cancel.is_set():
                 raise RuntimeError("Остановлено пользователем")
             self._wait(url)
+            host = re.sub(r"^https?://([^/:]+).*$", r"\1", url)
             try:
-                r = self.s.request(method, url, verify=self.verify, **kw)
+                r = self.s.request(method, url, verify=self._host_verify.get(host, self.verify), **kw)
                 if r.status_code in (429, 500, 502, 503, 504):
                     raise requests.HTTPError(f"HTTP {r.status_code}")
                 r.raise_for_status()
@@ -376,10 +456,17 @@ class Http:
                 err = e
                 log.debug("%s %s — попытка %s: %r", method, url, attempt, e, exc_info=not self._tb_logged)
                 self._tb_logged = True
-                if (not isinstance(e, requests.HTTPError) and self.verify not in (True, False)
-                        and attempt == 1 and "SSL" in repr(e)):
-                    self.verify = True
-                    continue
+                if not isinstance(e, requests.HTTPError) and "SSL" in repr(e) and self.verify is not False:
+                    if "CERTIFICATE_VERIFY_FAILED" in repr(e) and host not in self._aia_tried:
+                        self._aia_tried.add(host)
+                        m = re.match(r"^https://[^/:]+:(\d+)", url)
+                        if self._complete_chain(host, int(m.group(1)) if m else 443):
+                            self._host_verify.pop(host, None)
+                            continue
+                    if self._host_verify.get(host, self.verify) is not True and host not in self._plain_tried:
+                        self._plain_tried.add(host)       # свой файл сертификатов не подошёл — пробуем стандартный
+                        self._host_verify[host] = True
+                        continue
                 if isinstance(e, requests.HTTPError) and getattr(e.response, "status_code", 0) in (400, 401, 403, 404):
                     break
                 if "HTTP 500" in str(e) and attempt >= 2:        # сервер площадки упал — дольше не ждём
